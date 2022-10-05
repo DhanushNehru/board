@@ -1,13 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 html{
     height: 100%;
   }
   
   body {
+    font-family: 'Poppins', sans-serif;
+    background: #121212;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .selectors{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .color-selection{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 20px;
+  }
+
+  .color-header{
+    color: white;
+    margin: 20px;
+  }
+  
+  .canvas-container{
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #121212;
   }
   
   canvas {

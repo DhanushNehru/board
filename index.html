@@ -4,7 +4,21 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body onload="blackBoard()">
-    <canvas id="black-board"></canvas>
-    <script src="script.js"></script>
+    <div class="selectors">
+        <div class="color-selection board-color">
+            <div class="color-header">Board Color : </div>
+            <input type="color" name="boardColor" id="board-color">
+        </div>
+        <div class="color-selection pen-color">
+            <div class="color-header">Pen Color : </div>
+            <input type="color" name="penColor" id="pen-color">
+        </div>
+    </div>
+    <div class="canvas-container">
+        <canvas id="black-board"></canvas>
+        <script src="script.js"></script>
+    </div>
+
+    <script src="colorChanges.js"></script>
 </body>
 </html>
