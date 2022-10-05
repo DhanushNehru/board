@@ -6,7 +6,7 @@ html {
 
 body {
   font-family: "Poppins", sans-serif;
-  background: #121212;
+  background: #d4f7f7;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -15,20 +15,24 @@ body {
 }
 
 .selectors {
+  margin: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #e68a22;
+  border-radius: 50px;
+  padding-right: 40px;
 }
 
 .color-selection {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0px 20px;
+  margin: 5px 20px;
 }
 
 .color-header {
-  color: white;
+  color: rgb(44, 39, 39);
   margin: 20px;
 }
 
@@ -44,15 +48,19 @@ canvas {
   background: #000000;
   border: 3px solid rgba(192, 192, 192, 0.5);
   width: 40rem;
-  height: 24rem;
+  height: 26rem;
   cursor: grabbing;
+  box-shadow: 20px 20px 50px grey;
+  border-radius: 20px;
 }
 
-.clear-button{
+.clear-button {
   padding: 30px;
+  position: absolute;
+  right: 200px;
 }
 
-.clear-button button{
+.clear-button button {
   cursor: pointer;
   border: none;
   color: white;
@@ -60,13 +68,13 @@ canvas {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 20px;
   background-color: purple;
   border-radius: 15px;
   width: 100%;
 }
 
-.clear-button button:hover{
+.clear-button button:hover {
   color: black;
   background-color: white;
 }
