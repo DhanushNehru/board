@@ -37,6 +37,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 canvas {
@@ -52,7 +53,22 @@ canvas {
 }
 
 .clear-button button{
-  padding: 5px;
+  cursor: pointer;
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  background-color: purple;
+  border-radius: 15px;
+  width: 100%;
+}
+
+.clear-button button:hover{
+  color: black;
+  background-color: white;
 }
 
 canvas:active {
