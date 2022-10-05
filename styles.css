@@ -47,6 +47,14 @@ canvas {
   cursor: grabbing;
 }
 
+.clear-button{
+  padding: 30px;
+}
+
+.clear-button button{
+  padding: 5px;
+}
+
 canvas:active {
   border-color: rgb(192, 192, 192);
   cursor: grabbing;
