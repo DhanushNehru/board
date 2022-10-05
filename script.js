@@ -1,64 +1,69 @@
 function blackBoard() {
   const canvas = document.getElementById("black-board");
-  const context = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d");
 
+  //resizing
   canvas.width = canvas.getBoundingClientRect().width;
   canvas.height = canvas.getBoundingClientRect().height;
 
-  context.lineJoin = "round";
-  context.lineCap = "round";
-  context.lineWidth = 2;
-  context.strokeStyle = "#FFFFFF";
-
-  let isDrawing = false;
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "#FFFFFF";
+  //variables
+  let painting = false;
   let lastX = 0;
   let lastY = 0;
 
-  function draw(event) {
-    if (isDrawing) {
-      context.beginPath();
-      context.moveTo(lastX, lastY);
-      context.lineTo(event.offsetX, event.offsetY);
-      context.stroke();
-      lastX = event.offsetX;
-      lastY = event.offsetY;
-    } else {
+  //functions
+  function startPosition(e) {
+    painting = true;
+    draw(e);
+  }
+
+  function endPosition() {
+    painting = false;
+    ctx.beginPath();
+  }
+
+  function draw(e) {
+    if (!painting) {
       return;
     }
-  }
 
-  function touchStart(event) {
-    event.preventDefault();
-    context.beginPath();
-  }
-
-  function touchMove(event) {
-    if (isDrawing) {
-      context.moveTo(lastX, lastY);
-      context.lineTo(event.touches[0].pageX, event.touches[0].pageY);
-      context.stroke();
-      lastX = event.touches[0].pageX;
-      lastY = event.touches[0].pageY;
+    e.preventDefault();
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    if (e.type == "touchmove") {
+      console.log(e.touches[0]);
+      ctx.lineTo(e.touches[0].clientX, e.touches[0].clientY);
     } else {
-      return;
+      ctx.lineTo(e.offsetX, e.offsetY);
     }
+
+    if (e.type == "touchmove") {
+      lastX = e.touches[0].clientX;
+      lastY = e.touches[0].clientY;
+    } else {
+      lastX = e.offsetX;
+      lastY = e.offsetY;
+    }
+    ctx.stroke();
   }
 
+  //event listeners
   canvas.addEventListener("mousedown", (event) => {
-    isDrawing = true;
+    painting = true;
     lastX = event.offsetX;
     lastY = event.offsetY;
   });
-  canvas.addEventListener("mousemove", draw);
-  canvas.addEventListener("mouseup", () => (isDrawing = false));
-  canvas.addEventListener("mouseout", () => (isDrawing = false));
-
   canvas.addEventListener("touchstart", (event) => {
-    isDrawing = true;
-    lastX = event.touches[0].pageX;
-    lastY = event.touches[0].pageY;
+    painting = true;
+    lastX = event.touches[0].clientX;
+    lastY = event.touches[0].clientY;
   });
-  canvas.addEventListener("touchmove", touchMove);
-  canvas.addEventListener("touchend", () => (isDrawing = false));
-  canvas.addEventListener("touchcancel", () => (isDrawing = false));
+  canvas.addEventListener("mouseup", endPosition);
+  canvas.addEventListener("touchend", endPosition);
+  canvas.addEventListener("mousemove", draw);
+  canvas.addEventListener("touchmove", draw);
 }

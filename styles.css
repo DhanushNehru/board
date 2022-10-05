@@ -1,53 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-html{
-    height: 100%;
-  }
-  
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: #121212;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+html {
+  height: 100%;
+}
 
-  .selectors{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .color-selection{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0px 20px;
-  }
+body {
+  font-family: "Poppins", sans-serif;
+  background: #121212;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-  .color-header{
-    color: white;
-    margin: 20px;
-  }
-  
-  .canvas-container{
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
+.selectors {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-selection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 20px;
+}
+
+.color-header {
+  color: white;
+  margin: 20px;
+}
+
+.canvas-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+canvas {
+  background: #000000;
+  border: 3px solid rgba(192, 192, 192, 0.5);
+  width: 40rem;
+  height: 24rem;
+  cursor: grabbing;
+}
+
+canvas:active {
+  border-color: rgb(192, 192, 192);
+  cursor: grabbing;
+}
+
+@media screen and (max-width: 768px) {
   canvas {
     background: #000000;
-    border: 3px solid rgba(192, 192, 192, 0.5);
-    width: 40rem;
-    height: 24rem;
+    width: 95vw;
+    height: 85vh;
     cursor: grabbing;
   }
-  
-  canvas:active {
-    border-color: rgb(192, 192, 192);
-    cursor: grabbing;
-  }
+}
