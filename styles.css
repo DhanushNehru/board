@@ -52,6 +52,7 @@ canvas {
   cursor: grabbing;
   box-shadow: 20px 20px 50px grey;
   border-radius: 20px;
+  cursor: url(./assets/ico/pen-cursor.ico) 0 50, pointer;
 }
 
 .clear-button {
@@ -81,7 +82,6 @@ canvas {
 
 canvas:active {
   border-color: rgb(192, 192, 192);
-  cursor: grabbing;
 }
 
 @media screen and (max-width: 700px) {
