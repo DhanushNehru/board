@@ -1,55 +1,74 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-html {
-  height: 100%;
-}
-
 body {
   font-family: "Poppins", sans-serif;
   background: #121212;
-  height: 100%;
+}
+
+.wrapper {
+  padding-top: 1rem;
+  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 6rem;
 }
 
 .selectors {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media screen and (max-width: 320px) {
+  .selectors {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .color-selection {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0px 20px;
+  gap: 2rem;
 }
 
 .color-header {
   color: white;
-  margin: 20px;
 }
 
 .canvas-container {
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  width: 60%;
+  gap: 2rem;
 }
 
 canvas {
   background: #000000;
   border: 3px solid rgba(192, 192, 192, 0.5);
-  width: 40rem;
-  height: 24rem;
+  width: 90%;
+  height: 30rem;
   cursor: url(./assets/ico/pen-cursor.ico) 0 50, pointer;
 }
 
-.clear-button {
-  padding: 30px;
+@media screen and (max-width: 900px) {
+  .canvas-container {
+    width: 80%;
+  }
+
+  canvas {
+    height: 20rem;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .canvas-container {
+    width: 90%;
+  }
 }
 
 .clear-button button {
@@ -63,7 +82,6 @@ canvas {
   font-size: 16px;
   background-color: purple;
   border-radius: 15px;
-  width: 100%;
 }
 
 .clear-button button:hover {
@@ -73,13 +91,4 @@ canvas {
 
 canvas:active {
   border-color: rgb(192, 192, 192);
-}
-
-@media screen and (max-width: 768px) {
-  canvas {
-    background: #000000;
-    width: 95vw;
-    height: 85vh;
-    cursor: grabbing;
-  }
 }
