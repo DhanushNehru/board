@@ -45,14 +45,14 @@ canvas {
   border: 3px solid rgba(192, 192, 192, 0.5);
   width: 40rem;
   height: 24rem;
-  cursor: grabbing;
+  cursor: url(./assets/ico/pen-cursor.ico) 0 50, pointer;
 }
 
-.clear-button{
+.clear-button {
   padding: 30px;
 }
 
-.clear-button button{
+.clear-button button {
   cursor: pointer;
   border: none;
   color: white;
@@ -66,14 +66,13 @@ canvas {
   width: 100%;
 }
 
-.clear-button button:hover{
+.clear-button button:hover {
   color: black;
   background-color: white;
 }
 
 canvas:active {
   border-color: rgb(192, 192, 192);
-  cursor: grabbing;
 }
 
 @media screen and (max-width: 768px) {
