@@ -67,3 +67,11 @@ function blackBoard() {
   canvas.addEventListener("mousemove", draw);
   canvas.addEventListener("touchmove", draw);
 }
+
+
+function onClear() {
+  const canvas = document.getElementById("black-board");
+  const context = canvas.getContext("2d");
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+}
