@@ -6,7 +6,7 @@ html {
 
 body {
   font-family: "Poppins", sans-serif;
-  background: #121212;
+  background: #d4f7f7;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -15,20 +15,24 @@ body {
 }
 
 .selectors {
+  margin: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(to right, #eea959, #e68a22);
+  border-radius: 50px;
+  padding-right: 40px;
 }
 
 .color-selection {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0px 20px;
+  margin: 5px 20px;
 }
 
 .color-header {
-  color: white;
+  color: rgb(44, 39, 39);
   margin: 20px;
 }
 
@@ -44,12 +48,17 @@ canvas {
   background: #000000;
   border: 3px solid rgba(192, 192, 192, 0.5);
   width: 40rem;
-  height: 24rem;
+  height: 26rem;
+  cursor: grabbing;
+  box-shadow: 20px 20px 50px grey;
+  border-radius: 20px;
   cursor: url(./assets/ico/pen-cursor.ico) 0 50, pointer;
 }
 
 .clear-button {
   padding: 30px;
+  position: absolute;
+  right: 200px;
 }
 
 .clear-button button {
@@ -60,8 +69,8 @@ canvas {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
-  background-color: purple;
+  font-size: 20px;
+  background: linear-gradient(to left, purple, rgb(187, 62, 187));
   border-radius: 15px;
   width: 100%;
 }
@@ -75,11 +84,25 @@ canvas:active {
   border-color: rgb(192, 192, 192);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 700px) {
+  .selectors {
+    padding: 5px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 50px;
+  }
   canvas {
-    background: #000000;
+    background: black;
+    margin-top: 0px;
     width: 95vw;
-    height: 85vh;
+    height: 78vh;
     cursor: grabbing;
+  }
+  button {
+    position: relative;
+    right: -90px;
+    bottom: -180px;
   }
 }
