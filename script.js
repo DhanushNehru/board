@@ -49,6 +49,12 @@ function blackBoard() {
       lastY = e.offsetY;
     }
     ctx.stroke();
+
+    saveCanvas();
+  }
+
+  function saveCanvas() {
+    localStorage.setItem("myCanvas", canvas.toDataURL());
   }
 
   //event listeners
@@ -68,10 +74,31 @@ function blackBoard() {
   canvas.addEventListener("touchmove", draw);
 }
 
-
 function onClear() {
   const canvas = document.getElementById("black-board");
   const context = canvas.getContext("2d");
 
   context.clearRect(0, 0, canvas.width, canvas.height);
+
+  localStorage.setItem("myCanvas", null);
 }
+
+function loadCanvas() {
+  if (localStorage.getItem("myCanvas") !== "null") {
+    const canvas = document.getElementById("black-board");
+    const ctx = canvas.getContext("2d");
+
+    const dataURL = localStorage.getItem("myCanvas");
+
+    let img = new Image();
+
+    img.src = dataURL;
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0);
+    };
+  }
+}
+
+loadCanvas();
+
+blackBoard();
