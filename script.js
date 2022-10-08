@@ -75,3 +75,22 @@ function onClear() {
 
   context.clearRect(0, 0, canvas.width, canvas.height);
 }
+
+
+function onSave(){
+  let saveBtn = document.querySelector(".save");
+  saveBtn.addEventListener("click", () => {
+  //alert("save");
+
+  //to save and img/png type
+  let data = canvas.toDataURL("img/png");
+
+  //console.log(data)
+
+  //to anchor the img 4 download
+  let a = document.createElement("a");
+  a.href = data;
+  a.download = "drawing.png";
+  a.click();
+})
+}

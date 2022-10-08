@@ -75,10 +75,16 @@ canvas {
   width: 100%;
 }
 
+.save{
+  margin-top: 1rem;
+  background: linear-gradient(to right,red, rgb(146, 2, 2)) !important;
+}
+
 .clear-button button:hover {
   color: black;
   background-color: white;
 }
+
 
 canvas:active {
   border-color: rgb(192, 192, 192);
