@@ -55,6 +55,7 @@ canvas {
   cursor: url(./assets/ico/pen-cursor.ico) 0 50, pointer;
 }
 
+
 .clear-button {
   padding: 30px;
   position: absolute;
@@ -76,35 +77,6 @@ canvas {
 }
 
 
-.clear-button button:hover {
-  color: black;
-  background-color: white;
-}
-.clear-button {
-  padding: 30px;
-  position: absolute;
-  right: 200px;
-}
-
-.clear-button button {
-  cursor: pointer;
-  border: none;
-  color: white;
-  padding: 15px 30px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  background: linear-gradient(to left, purple, rgb(187, 62, 187));
-  border-radius: 15px;
-  width: 100%;
-}
-
-
-.clear-button button:hover {
-  color: black;
-  background-color: white;
-}
 
 .save-button {
   padding: 30px;
@@ -121,7 +93,6 @@ canvas {
   text-decoration: none;
   display: inline-block;
   font-size: 20px;
-  background: linear-gradient(to left, purple, rgb(187, 62, 187));
   border-radius: 15px;
   width: 100%;
 }
@@ -132,31 +103,11 @@ canvas {
   background-color: white;
 }
 
-.clear-button {
-  padding: 30px;
-  position: absolute;
-  right: 200px;
-}
-
-.clear-button button {
-  cursor: pointer;
-  border: none;
-  color: white;
-  padding: 15px 30px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  background: linear-gradient(to left, purple, rgb(187, 62, 187));
-  border-radius: 15px;
-  width: 100%;
-}
-
-
 .clear-button button:hover {
   color: black;
   background-color: white;
 }
+
 
 .save{
   margin-top: 10rem;
