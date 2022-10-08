@@ -6,7 +6,7 @@ html {
 
 body {
   font-family: "Poppins", sans-serif;
-  background: #d4f7f7;
+  background: #2c3131;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -45,12 +45,12 @@ body {
 }
 
 canvas {
-  background: #000000;
-  border: 3px solid rgba(192, 192, 192, 0.5);
+  background: rgb(255, 255, 255);
+  border: 3px solid rgba(0, 0, 0, 0.5);
   width: 40rem;
   height: 26rem;
   cursor: grabbing;
-  box-shadow: 20px 20px 50px grey;
+  box-shadow: 20px 20px 50px rgb(0, 0, 0);
   border-radius: 20px;
   cursor: url(./assets/ico/pen-cursor.ico) 0 50, pointer;
 }
@@ -94,7 +94,7 @@ canvas:active {
     height: 50px;
   }
   canvas {
-    background: black;
+    background: white;
     margin-top: 0px;
     width: 95vw;
     height: 78vh;

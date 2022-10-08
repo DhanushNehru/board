@@ -9,7 +9,7 @@ function blackBoard() {
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
   ctx.lineWidth = 2;
-  ctx.strokeStyle = "#FFFFFF";
+  ctx.strokeStyle = "#000000";
   //variables
   let painting = false;
   let lastX = 0;
