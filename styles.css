@@ -45,7 +45,6 @@ body {
 }
 
 canvas {
-  background: #000000;
   border: 3px solid rgba(192, 192, 192, 0.5);
   width: 40rem;
   height: 26rem;

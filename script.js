@@ -2,6 +2,7 @@ function blackBoard() {
   const canvas = document.getElementById("black-board");
   const ctx = canvas.getContext("2d");
 
+
   //resizing
   canvas.width = canvas.getBoundingClientRect().width;
   canvas.height = canvas.getBoundingClientRect().height;
@@ -10,6 +11,11 @@ function blackBoard() {
   ctx.lineCap = "round";
   ctx.lineWidth = 2;
   ctx.strokeStyle = "#FFFFFF";
+
+  // default background  
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
   //variables
   let painting = false;
   let lastX = 0;
