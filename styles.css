@@ -24,6 +24,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: white;
   padding-top: 0;
   margin-top: 0;
   font-size: large;
@@ -40,7 +41,7 @@ body {
 }
 
 .color-header {
-  color: rgb(44, 39, 39);
+  /* color: rgb(44, 39, 39); */
   margin: 20px;
 }
 
@@ -81,7 +82,7 @@ canvas {
 
 .clear-button {
   padding: 30px;
-  position: absolute;
+  /* position: absolute; */
   right: 200px;
 }
 
