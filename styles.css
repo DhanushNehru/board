@@ -100,9 +100,216 @@ canvas:active {
     height: 78vh;
     cursor: grabbing;
   }
-  button {
+  
+  .canvas-container button {
     position: relative;
     right: -90px;
     bottom: -180px;
+  }
+}
+
+.clear-download-button button {
+  background: unset;
+  border: unset;
+  cursor: pointer;
+}
+
+.clear-download-button .clear {
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  background: linear-gradient(to left, purple, rgb(187, 62, 187));
+  border-radius: 15px;
+  width: 100%;
+}
+
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 450px;
+  display: grid;
+  gap: 2rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-content .input-name {
+  padding: 1rem;
+  border: 2px solid #2c3131;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.modal-content .input-name:focus {
+  border: 2px solid #bb3ebb;
+  outline: none;
+}
+
+
+.clear-download-button {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  /* Temporary workaround for responsive issue to be fixed */
+}
+
+.label-input {
+  display: grid;
+  gap: 10px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 1.1;
+  margin-top: 1rem;
+}
+
+.download-list-formats {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+
+}
+
+.download-format-control {
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 1.1;
+  display: flex;
+  grid-template-columns: 1em auto;
+  gap: 0.5em;
+  cursor: pointer;
+}
+
+.download-format-control:focus-within {
+  color: #bb3ebb;
+}
+
+.download-format-control input[type=radio] {
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.15em solid currentColor;
+  border-radius: 50%;
+  transform: translateY(-0.075em);
+  display: grid;
+  place-content: center;
+}
+
+.download-format-control input[type=radio]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em #bb3ebb;
+  background-color: CanvasText;
+}
+
+.download-format-control input[type=radio]:checked::before {
+  transform: scale(1);
+}
+
+.download-cancel {
+  display: flex;
+  margin-top: 1rem;
+  gap: 2rem;
+  justify-items: center;
+  align-items: center;
+}
+
+.download-cancel button {
+  cursor: pointer;
+  border: none;
+  font-size: 20px;
+  height: fit-content;
+}
+
+.btn-cancel {
+  padding: 0;
+  color: #2c3131;
+  text-align: center;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 15px;
+  background: unset;
+}
+
+.btn-download {
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 20px;
+  background: linear-gradient(to left, purple, rgb(187, 62, 187));
+  border-radius: 15px;
+}
+
+
+.error {
+  -webkit-animation: shake 0.2s ease-in-out 0s 2;
+  animation: shake 0.2s ease-in-out 0s 2;
+  border: 2px solid red !important;
+}
+
+@-webkit-keyframes shake {
+  0% {
+    margin: 0;
+  }
+
+  25% {
+    margin: 0 0.5rem;
+  }
+
+
+  75% {
+    margin: 0 -0.5rem;
+  }
+
+  100% {
+    margin: 0;
+  }
+}
+
+@keyframes shake {
+  0% {
+    margin: 0;
+  }
+
+  25% {
+    margin: 0 0.5rem;
+  }
+
+  75% {
+    margin: 0 -0.5rem;
+  }
+
+  100% {
+    margin: 0;
   }
 }
