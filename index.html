@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="styles.css">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href='https://css.gg/css' rel='stylesheet'>
 </head>
 <body>
     <div class="selectors">
@@ -12,20 +13,30 @@
         </div>
         <div class="color-selection pen-color">
             <div class="color-header">Pen Colour : </div>
-            <input type="color" name="penColor" id="pen-color">
+            <input type="color" name="penColor" id="pen-color" value="#000000">
+        </div>
+        <div class="stroke-selection">
+            <div class="stroke-header">Stroke: </div>
+            <input type="range" name="stroke" id="stroke" min="1" max="50" value="3">
         </div>
     </div>
     <div class="canvas-container">
         <canvas id="black-board"></canvas>
+        <div class="sidebar">
+            <button onclick="circle()" class="circle">
+                <i class="gg-shape-circle"></i>
+            </button>
+            <div class="clear-download-button">
+                <button class="clear" onclick="onClear()">Clear</button>
+                <button id="download">
+                    <img src="/assets/ico/download.svg">
+                </button>
+            </div>
+        </div>
     </div>
-
-    <div class="clear-download-button">
-        <button class="clear" onclick="onClear()">Clear</button>
-        <button id="download">
-            <img src="/assets/ico/download.svg">
-        </button>
-    </div>
-
+    
+    
+    
     <script src="script.js"></script>
     <script src="colorChanges.js"></script>
 </body>
