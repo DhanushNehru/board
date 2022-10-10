@@ -1,3 +1,144 @@
+const buttonDownload = document.getElementById("download");
+buttonDownload.addEventListener("click", downloadOptions);
+
+function download(name, format) {
+  // get width and height and background color - original draw
+  const canvas = document.getElementById("black-board");
+  const width = canvas.width;
+  const height = canvas.height;
+
+  let boardBackground;
+
+  const background = canvas.style.backgroundColor;
+  boardBackground = background;
+
+  if (!background) {
+    boardBackground = "rgba(255,255,255)";
+  }
+
+  // generate a new canvas with background
+  const backgroundCanvasGenerate = document.createElement("canvas");
+  backgroundCanvasGenerate.width = width;
+  backgroundCanvasGenerate.height = height;
+  const ctx2 = backgroundCanvasGenerate.getContext("2d");
+  ctx2.fillStyle = boardBackground;
+  ctx2.fillRect(0, 0, width, height);
+
+  // merge background with draw
+  const canvas3 = document.createElement("canvas");
+  canvas3.width = width;
+  canvas3.height = height;
+  const ctx3 = canvas3.getContext("2d");
+
+  ctx3.drawImage(backgroundCanvasGenerate, 0, 0);
+  ctx3.drawImage(canvas, 0, 0);
+
+  const newCanvas = canvas3.toDataURL();
+
+  fetch(newCanvas)
+    .then((resp) => resp.blob())
+    .then((blobobject) => {
+      const blob = window.URL.createObjectURL(blobobject);
+      const anchor = document.createElement("a");
+      anchor.style.display = "none";
+      anchor.href = blob;
+      anchor.download = `${name}.${format}`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      window.URL.revokeObjectURL(blob);
+
+      document.getElementById("modal").remove();
+    });
+}
+
+function downloadOptions() {
+  const modal = document.createElement("div");
+  modal.classList.add("modal");
+  modal.setAttribute("id", "modal");
+
+  const content = document.createElement("div");
+  content.classList.add("modal-content");
+  modal.appendChild(content);
+
+  const labelInput = document.createElement("div");
+
+  labelInput.classList.add("label-input");
+
+  const label = document.createElement("label");
+  label.appendChild(document.createTextNode("File Name"));
+  labelInput.appendChild(label);
+
+  const inputName = document.createElement("input");
+  inputName.addEventListener("keydown", () => {
+    const error = inputName.classList.contains("error");
+    if (error) {
+      inputName.classList.remove("error");
+    }
+  });
+  inputName.classList.add("input-name");
+  labelInput.appendChild(inputName);
+
+  content.appendChild(labelInput);
+
+  const formats = ["png", "jpeg"];
+
+  const listFormats = document.createElement("div");
+  listFormats.classList.add("download-list-formats");
+  content.appendChild(listFormats);
+
+  formats.map((format) => {
+    const label = document.createElement("label");
+    label.classList.add("download-format-control");
+
+    const input = document.createElement("input");
+    if (format == "png") {
+      input.checked = true;
+    }
+    input.setAttribute("type", "radio");
+    input.setAttribute("name", "radio");
+    input.setAttribute("value", format);
+    label.appendChild(document.createTextNode(format));
+    label.appendChild(input);
+
+    listFormats.appendChild(label);
+  });
+
+  const downloadCancel = document.createElement("div");
+  downloadCancel.classList.add("download-cancel");
+
+  const btnDownload = document.createElement("button");
+  btnDownload.addEventListener("click", () => {
+    let nameFile = inputName.value;
+
+    if (!nameFile) {
+      inputName.classList.add("error");
+      return;
+    }
+
+    nameFile = nameFile.replace(/\s+/g, "-").toLowerCase();
+
+    const format = document.querySelector('input[name="radio"]:checked').value;
+
+    download(nameFile, format);
+  });
+
+  btnDownload.classList.add("btn-download");
+  btnDownload.appendChild(document.createTextNode("Download"));
+  downloadCancel.appendChild(btnDownload);
+
+  const btnCancelClose = document.createElement("button");
+  btnCancelClose.classList.add("btn-cancel");
+  btnCancelClose.addEventListener("click", () => {
+    modal.remove();
+  });
+  btnCancelClose.appendChild(document.createTextNode("Cancel"));
+  downloadCancel.appendChild(btnCancelClose);
+
+  content.appendChild(downloadCancel);
+
+  document.body.appendChild(modal);
+}
+
 function blackBoard() {
   const canvas = document.getElementById("black-board");
   const ctx = canvas.getContext("2d");
