@@ -1,7 +1,7 @@
 # board
-A black board to just write contents and display
+A white board to just write contents and display
 
-<img width="742" alt="Screenshot 2022-10-05 at 2 10 01 PM" src="https://user-images.githubusercontent.com/22955675/194018360-e66d6dc9-744c-42e9-8809-1090089a9398.png">
+<img width="742" alt="Screenshot 2022-10-05 at 2 10 01 PM" src="https://user-images.githubusercontent.com/80240317/195386021-ae58b679-4f69-4112-9fd6-42ff45759cbb.png">
 
 
 ## Tech Stack
