@@ -7,9 +7,14 @@ html {
 body {
   font-family: "Poppins", sans-serif;
   background: #2c3131;
+  color: white;
   height: 100%;
+
+}
+
+.container {
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
 }
@@ -17,11 +22,15 @@ body {
 .selectors {
   margin: auto;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  color: white;
+  padding-top: 0;
+  margin-top: 0;
+  font-size: large;
   justify-content: center;
-  background: linear-gradient(to right, #eea959, #e68a22);
-  border-radius: 50px;
-  padding-right: 40px;
+  /* height: 80%; */
+
 }
 
 .color-selection {
@@ -32,16 +41,32 @@ body {
 }
 
 .color-header {
-  color: rgb(44, 39, 39);
+  /* color: rgb(44, 39, 39); */
   margin: 20px;
 }
 
 .canvas-container {
   height: 100%;
+  width: 70%;
   display: flex;
+  margin-top: 0;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.container-fluid {
+  /* margin: 50px; */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  margin-bottom: 40px;
+  background-color: hsla(0, 0%, 0%, 0.3);
+  backdrop-filter: saturate(180%) blur(10px);
+  /* opacity: 0.5; */
+  /* width: 98%; */
 }
 
 canvas {
@@ -57,7 +82,7 @@ canvas {
 
 .clear-button {
   padding: 30px;
-  position: absolute;
+  /* position: absolute; */
   right: 200px;
 }
 
@@ -81,7 +106,8 @@ canvas {
 }
 
 canvas:active {
-  border-color: rgb(192, 192, 192);
+  border-color: rgb(151, 151, 151);
+  box-shadow: rgba(164, 164, 164, 0.56) 0px 2px 10px 4px;
 }
 
 @media screen and (max-width: 700px) {
@@ -93,6 +119,7 @@ canvas:active {
     margin-right: auto;
     height: 50px;
   }
+
   canvas {
     background: white;
     margin-top: 0px;
@@ -100,12 +127,14 @@ canvas:active {
     height: 78vh;
     cursor: grabbing;
   }
-  
+
   .canvas-container button {
+
     position: relative;
     right: -90px;
     bottom: -180px;
   }
+
 }
 
 .clear-download-button button {
@@ -312,4 +341,5 @@ canvas:active {
   100% {
     margin: 0;
   }
+
 }
