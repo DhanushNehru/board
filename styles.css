@@ -80,6 +80,31 @@ canvas {
   background-color: white;
 }
 
+.undo-button {
+  padding: 30px;
+  position: absolute;
+  right: 200px;
+}
+
+.undo-button button {
+  cursor: pointer;
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  background: linear-gradient(to left, purple, rgb(187, 62, 187));
+  border-radius: 15px;
+  width: 100%;
+}
+
+.undo-button button:hover {
+  color: black;
+  background-color: white;
+}
+
 canvas:active {
   border-color: rgb(192, 192, 192);
 }
