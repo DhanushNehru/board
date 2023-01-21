@@ -6,7 +6,7 @@ A white board to just write contents and display
 
 ### Gitpod
 
-In the cloud-free development environment which will have all the dependencies you need (for example MongoDB).
+In the cloud-free development environment where you can start coding.
 
 You can use Gitpod in the cloud [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/DhanushNehru/board/)
 
