@@ -332,3 +332,9 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 input[type="color"]::-webkit-color-swatch {
   border: none;
 }
+
+.github-button-container {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+}
