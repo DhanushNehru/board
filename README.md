@@ -25,6 +25,6 @@ To deploy the project locally
 
 > You need to clone the project and Run the **HTML** file.
 
-Feel free to contribute by checking the issues section or by creating new issues
+Hey, I am Dhanush N,the maintainer of this opensource repository. You can connect with me and support or follow my work via [Twitter](https://twitter.com/Dhanush_Nehru) / [Instagram](https://www.instagram.com/dhanush_nehru/) / [Youtube](https://www.youtube.com/@dhanushnehru?sub_confirmation=1) / [Github](https://github.com/DhanushNehru)
 
 If you like the project support it by starring ⭐
