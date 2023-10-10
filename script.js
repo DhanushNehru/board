@@ -1,6 +1,37 @@
 const buttonDownload = document.getElementById("download");
 buttonDownload.addEventListener("click", downloadOptions);
 
+const shareBtnPress = document.getElementById("shareBtn");
+shareBtnPress.addEventListener("click",(elem)=>{
+  const currElemStatus =document.getElementById("allOptions").style.display;
+  if(currElemStatus=="flex"){
+    document.getElementById("allOptions").style.display ="none";
+    document.getElementById("shareBtn").firstElementChild.src ="https://thenounproject.com/api/private/icons/2137557/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0";
+  }
+  else{
+    document.getElementById("allOptions").style.display ="flex";
+    document.getElementById("shareBtn").firstElementChild.src ="https://thenounproject.com/api/private/icons/6161882/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0";
+  } 
+})
+
+function copyClipFun(){
+  navigator.clipboard.writeText("https://board-dhanushnehru.netlify.app/");
+}
+
+const copyClipBoard = document.getElementById("copyCopy");
+copyClipBoard.addEventListener("mouseenter",()=>{
+  document.getElementById("copyStatDiv").style.display ="block";
+  document.getElementById("copyStatDiv").innerHTML ="Copy to clipboard";
+})
+
+copyClipBoard.addEventListener("mouseleave",()=>{
+  document.getElementById("copyStatDiv").style.display ="none";
+})
+
+copyClipBoard.addEventListener("click",()=>{
+  document.getElementById("copyStatDiv").innerHTML ="Copied successfully";
+})
+
 function download(name, format) {
   // get width and height and background color - original draw
   const canvas = document.getElementById("black-board");

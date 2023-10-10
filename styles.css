@@ -338,3 +338,72 @@ input[type="color"]::-webkit-color-swatch {
   right: 1rem;
   top: 1rem;
 }
+
+.shareBtnDiv{
+  position: fixed;
+  bottom: 5%;
+  right: 3%;
+}
+
+#shareBtn{
+  position: relative;
+  border-radius: 50%;
+  padding: 1.6rem;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background-color: #e1dfdf;
+}
+
+#shareBtn img{
+  position: absolute;
+  width: 80%;
+  left: 50%;
+  top: 50%;
+  translate: -52% -50%;
+}
+
+#shareBtn:hover{
+  background-color: #898289;
+  transform:scale(1.1);
+}
+
+#allOptions{
+  display: none;
+  position: absolute;
+  top: -15.5rem;
+  padding-bottom: 4.5rem;
+  padding-top: 2rem;
+  z-index: -1;
+  border-radius: 20px 20px 30px 30px;
+  background-color: #aca8a8;
+  width: 70px;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 30px;
+  right: -9px;
+}
+
+#allOptions a{
+  background: none;
+  border: none;
+  width: 20px;
+  padding-left: 15px;
+  cursor: default;
+}
+
+#copyCopy{
+  position: relative;
+}
+
+#copyStatDiv{
+  position: absolute;
+  font-size: 9px;
+  white-space: nowrap;
+  top: 0;
+  left: -4.5rem;
+  padding: 3px;
+  border-radius: 5px;
+  background-color: rgb(222, 218, 218);
+  display: none;
+}
