@@ -86,18 +86,19 @@ canvas:active {
 
 @media screen and (max-width: 700px) {
   .selectors {
+    width: 96%;
     padding: 5px;
-    margin-bottom: 0px;
+    margin-bottom: 20px;
     margin-top: 0px;
     margin-left: auto;
     margin-right: auto;
-    height: 50px;
+    height: 80px;
   }
   canvas {
     background: white;
-    margin-top: 0px;
+    margin-bottom: 10px;
     width: 95vw;
-    height: 78vh;
+    height: 70vh;
     cursor: grabbing;
   }
   
@@ -105,6 +106,35 @@ canvas:active {
     position: relative;
     right: -90px;
     bottom: -180px;
+  }
+  
+  .github-button-container {
+    position: relative;
+    top: 0;
+  }
+}
+@media screen and (max-width: 550px) {
+  .selectors {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+  }
+  
+  .color-header{
+    font-size: 15px;
+    padding: 0;
+    margin: 10px;
+  }
+
+  .color-selection {
+    margin: 0;
+  }
+
+  .github-button-container {
+    position: relative;
+    top: 0;
   }
 }
 
@@ -333,15 +363,16 @@ input[type="color"]::-webkit-color-swatch {
   border: none;
 }
 
-.github-button-container {
+/* position relative not work in media query after this  */
+/* .github-button-container {
   position: absolute;
   right: 1rem;
   top: 1rem;
-}
+} */
 
 .shareBtnDiv{
   position: fixed;
-  bottom: 5%;
+  bottom: 3%;
   right: 3%;
 }
 
