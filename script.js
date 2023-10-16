@@ -1,36 +1,42 @@
+var drawArray = [];
+var drawStep = -1;
+let isPageReloaded =
+  JSON.parse(localStorage.getItem("isPageReloaded")) || false;
+
 const buttonDownload = document.getElementById("download");
 buttonDownload.addEventListener("click", downloadOptions);
 
 const shareBtnPress = document.getElementById("shareBtn");
-shareBtnPress.addEventListener("click",(elem)=>{
-  const currElemStatus =document.getElementById("allOptions").style.display;
-  if(currElemStatus=="flex"){
-    document.getElementById("allOptions").style.display ="none";
-    document.getElementById("shareBtn").firstElementChild.src ="https://thenounproject.com/api/private/icons/2137557/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0";
+shareBtnPress.addEventListener("click", (elem) => {
+  const currElemStatus = document.getElementById("allOptions").style.display;
+  if (currElemStatus == "flex") {
+    document.getElementById("allOptions").style.display = "none";
+    document.getElementById("shareBtn").firstElementChild.src =
+      "https://thenounproject.com/api/private/icons/2137557/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0";
+  } else {
+    document.getElementById("allOptions").style.display = "flex";
+    document.getElementById("shareBtn").firstElementChild.src =
+      "https://thenounproject.com/api/private/icons/6161882/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0";
   }
-  else{
-    document.getElementById("allOptions").style.display ="flex";
-    document.getElementById("shareBtn").firstElementChild.src ="https://thenounproject.com/api/private/icons/6161882/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0";
-  } 
-})
+});
 
-function copyClipFun(){
+function copyClipFun() {
   navigator.clipboard.writeText("https://board-dhanushnehru.netlify.app/");
 }
 
 const copyClipBoard = document.getElementById("copyCopy");
-copyClipBoard.addEventListener("mouseenter",()=>{
-  document.getElementById("copyStatDiv").style.display ="block";
-  document.getElementById("copyStatDiv").innerHTML ="Copy to clipboard";
-})
+copyClipBoard.addEventListener("mouseenter", () => {
+  document.getElementById("copyStatDiv").style.display = "block";
+  document.getElementById("copyStatDiv").innerHTML = "Copy to clipboard";
+});
 
-copyClipBoard.addEventListener("mouseleave",()=>{
-  document.getElementById("copyStatDiv").style.display ="none";
-})
+copyClipBoard.addEventListener("mouseleave", () => {
+  document.getElementById("copyStatDiv").style.display = "none";
+});
 
-copyClipBoard.addEventListener("click",()=>{
-  document.getElementById("copyStatDiv").innerHTML ="Copied successfully";
-})
+copyClipBoard.addEventListener("click", () => {
+  document.getElementById("copyStatDiv").innerHTML = "Copied successfully";
+});
 
 function download(name, format) {
   // get width and height and background color - original draw
@@ -196,6 +202,8 @@ function blackBoard() {
   function endPosition() {
     painting = false;
     ctx.beginPath();
+    pushCanvas();
+    saveCanvas();
   }
 
   function draw(e) {
@@ -246,6 +254,21 @@ function blackBoard() {
   canvas.addEventListener("touchmove", draw);
 }
 
+function pushCanvas() {
+  drawStep++;
+  if (drawStep === drawArray.length) {
+    const tempArray = drawArray.slice(0, drawArray.length);
+    tempArray.push(canvas.toDataURL());
+    drawArray = tempArray;
+  } else {
+    drawArray[drawStep] = canvas.toDataURL();
+  }
+}
+// Save the canvas data URL to localStorage
+function saveCanvas() {
+  localStorage.setItem("myCanvas", canvas.toDataURL());
+}
+
 function onClear() {
   const canvas = document.getElementById("black-board");
   const context = canvas.getContext("2d");
@@ -253,6 +276,8 @@ function onClear() {
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   localStorage.setItem("myCanvas", null);
+  pushCanvas();
+  saveCanvas();
 }
 
 function loadCanvas() {
@@ -270,6 +295,45 @@ function loadCanvas() {
     };
   }
 }
+
+function onUndo() {
+  //function to undo the drawing
+  if (drawStep >= 0) {
+    // Check if there are previous drawings to undo
+
+    const canvas = document.getElementById("black-board");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+    drawStep--;
+    var canvasPic = new Image();
+    canvasPic.src = drawArray[drawStep]; 
+    
+    // Load the previous drawing from drawArray
+    canvasPic.onload = function () {
+      ctx.drawImage(canvasPic, 0, 0);
+      localStorage.setItem("myCanvas", canvas.toDataURL());
+    };
+    if (isPageReloaded) {
+       // If the browser tab was reloaded or re-opened
+      var canvasPicOld = new Image();
+      canvasPicOld.src = localStorage.getItem("oldImage");
+      canvasPicOld.onload = function () {
+        // Draw the previous image on the canvas
+        ctx.drawImage(canvasPicOld, 0, 0); 
+      };
+    } else {
+      // Reset the drawArray and drawStep since there are no more previous drawings
+      drawArray = [];
+      drawStep = -1;
+    }
+  }
+}
+
+window.addEventListener("beforeunload", function () {
+  const canvas = document.getElementById("black-board");
+  localStorage.setItem("isPageReloaded", "true");
+  localStorage.setItem("oldImage", canvas.toDataURL());
+});
 
 loadCanvas();
 

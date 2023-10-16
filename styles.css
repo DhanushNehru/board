@@ -138,13 +138,13 @@ canvas:active {
   }
 }
 
-.clear-download-button button {
+.clear-download-undo-button button {
   background: unset;
   border: unset;
   cursor: pointer;
 }
 
-.clear-download-button .clear {
+.clear-download-undo-button .clear {
   border: none;
   color: white;
   padding: 15px 30px;
@@ -153,6 +153,19 @@ canvas:active {
   display: inline-block;
   font-size: 20px;
   background: linear-gradient(to left, purple, rgb(187, 62, 187));
+  border-radius: 15px;
+  width: 100%;
+}
+
+.clear-download-undo-button .undo{
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  background: linear-gradient(to left, rgb(15, 12, 67), rgb(139, 81, 228));
   border-radius: 15px;
   width: 100%;
 }
@@ -196,7 +209,7 @@ canvas:active {
 }
 
 
-.clear-download-button {
+.clear-download-undo-button {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
