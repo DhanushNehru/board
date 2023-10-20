@@ -53,6 +53,7 @@ canvas {
   box-shadow: 20px 20px 50px rgb(0, 0, 0);
   border-radius: 20px;
   cursor: url(./assets/ico/pen-cursor.ico) 0 50, pointer;
+  margin: 15px;
 }
 
 .clear-button {
