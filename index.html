@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" type="image/x-icon" href="assets/ico/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="assets/ico/favicon.ico" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </head>
@@ -16,16 +16,56 @@
         />
       </button>
       <div id="allOptions">
-        <a href="whatsapp://send?text=https://board-dhanushnehru.netlify.app/" data-action="share/whatsapp/share"><img width="40px" id="whatsAppBtn" src="https://cdn.iconscout.com/icon/free/png-512/free-whatsapp-42-189793.png?f=webp&w=512" alt="loading"></a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=https://board-dhanushnehru.netlify.app/" target="_blank" rel="noopener"><img width="40px" id="gmailBtn" src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png?ga=GA1.1.942035619.1696882171" alt="loading"></a>
+        <a
+          href="whatsapp://send?text=https://board-dhanushnehru.netlify.app/"
+          data-action="share/whatsapp/share"
+          ><img
+            width="40px"
+            id="whatsAppBtn"
+            src="https://cdn.iconscout.com/icon/free/png-512/free-whatsapp-42-189793.png?f=webp&w=512"
+            alt="loading"
+        /></a>
+        <a
+          href="https://www.facebook.com/sharer/sharer.php?u=https://board-dhanushnehru.netlify.app/"
+          target="_blank"
+          rel="noopener"
+          ><img
+            width="40px"
+            id="gmailBtn"
+            src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png?ga=GA1.1.942035619.1696882171"
+            alt="loading"
+        /></a>
         <a onclick="copyClipFun()" id="copyCopy">
-            <div id="copyStatDiv">Copy to clipboard</div>
-            <img width="40px" id="linkCopyBtn" src="https://cdn.iconscout.com/icon/free/png-512/free-link-1439747-1214319.png?f=webp&w=512" alt="loading">
+          <div id="copyStatDiv">Copy to clipboard</div>
+          <img
+            width="40px"
+            id="linkCopyBtn"
+            src="https://cdn.iconscout.com/icon/free/png-512/free-link-1439747-1214319.png?f=webp&w=512"
+            alt="loading"
+          />
         </a>
       </div>
     </div>
 
     <div class="github-button-container">
+
+      <div id="g_id_onload"
+    data-client_id=""
+    data-context="signin"
+    data-ux_mode="popup"
+    data-callback="handleCredentialResponse"
+    data-auto_prompt="false">
+</div>
+
+<div class="g_id_signin"
+    data-type="standard"
+    data-shape="rectangular"
+    data-theme="outline"
+    data-text="signin_with"
+    data-size="large"
+    data-logo_alignment="left">
+</div>
+
       <a
         class="github-button"
         href="https://github.com/DhanushNehru/board"
@@ -60,9 +100,7 @@
       <button class="clear" title="Clear Board" onclick="onClear()">
         Clear
       </button>
-      <button class="undo" title="Undo Board" onclick="onUndo()">
-      Undo
-      </button>
+      <button class="undo" title="Undo Board" onclick="onUndo()">Undo</button>
       <button id="download" title="Download">
         <img src="/assets/ico/download.svg" />
       </button>
@@ -70,5 +108,6 @@
 
     <script src="script.js"></script>
     <script src="colorChanges.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async></script>
   </body>
 </html>
