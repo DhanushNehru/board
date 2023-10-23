@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <link rel="stylesheet" href="styles.css" />
@@ -48,35 +48,41 @@
     </div>
 
     <div class="github-button-container">
+      <div id="buttonDiv"></div> 
+      <button id="btnGoogleSignIn" style="border:none;background: none;"> </button>
+<div       class="sign-in">
+      <span id="g_id_onload"
+      data-callback="handleCredentialResponse"
+      data-client_id="653216433857-1ginl3t33m37ljku8aha7j12u46u16df.apps.googleusercontent.com"
+      data-auto_prompt="false">
+    </span>
+    <span class="g_id_signin"
+    id="g_id_signin"  
+      data-type="standard"
+      data-size="medium"
+      data-theme="filled_black"
+      data-text="sign_in_with"
+      data-shape="square"
+      data-logo_alignment="left">
+    </span>
+    <span onclick="signOut()" id="g_id_signout" style="display: none;">
+      Sign Out
+    </span>
+  </div>
+    <span id="g_id_user" style="display: none;"></span>
+    <a
+      class="github-button"
+      href="https://github.com/DhanushNehru/board"
+      data-icon="octicon-star"
+      data-size="large"
+      data-show-count="true"
+      aria-label="Star DhanushNehru/board on GitHub"
+    >
+      Star
+    </a>
+  </div>
+     
 
-      <div id="g_id_onload"
-    data-client_id=""
-    data-context="signin"
-    data-ux_mode="popup"
-    data-callback="handleCredentialResponse"
-    data-auto_prompt="false">
-</div>
-
-<div class="g_id_signin"
-    data-type="standard"
-    data-shape="rectangular"
-    data-theme="outline"
-    data-text="signin_with"
-    data-size="large"
-    data-logo_alignment="left">
-</div>
-
-      <a
-        class="github-button"
-        href="https://github.com/DhanushNehru/board"
-        data-icon="octicon-star"
-        data-size="large"
-        data-show-count="true"
-        aria-label="Star DhanushNehru/board on GitHub"
-      >
-        Star</a
-      >
-    </div>
     <div class="selectors">
       <div class="color-selection board-color">
         <div class="color-header">Board Colour :</div>
@@ -109,5 +115,60 @@
     <script src="script.js"></script>
     <script src="colorChanges.js"></script>
     <script src="https://accounts.google.com/gsi/client" async></script>
+  </body>
+</html> -->
+
+
+<html>
+  <body>
+      <script src="https://accounts.google.com/gsi/client" async defer></script>
+      <script>
+        function handleCredentialResponse(response) {
+          // console.log("Encoded JWT ID token: " + response.credential);
+          if (response.credential) {
+            console.log(response.credential);
+                // Authentication successful, allow actions
+                // You can add your action handling logic here
+            } else {
+                // User is not authenticated, prompt for sign-in
+                google.accounts.id.prompt();
+            }
+        }
+        window.onload = function () {
+          g_id_token = {
+        client_id: '653216433857-1ginl3t33m37ljku8aha7j12u46u16df.apps.googleusercontent.com',
+    };
+
+    google.accounts.id.initialize({
+        client_id: '653216433857-1ginl3t33m37ljku8aha7j12u46u16df.apps.googleusercontent.com',
+        callback: handleCredentialResponse,
+        
+    });
+
+          google.accounts.id.renderButton(
+            document.getElementById("buttonDiv"),
+            { theme: "outline", size: "large" }  // customization attributes
+          );
+          google.accounts.id.prompt(); 
+
+          document.getElementById('actionButton').addEventListener('click', function () {
+        // Check the user's authentication status when the action button is clicked
+        handleCredentialResponse({});
+    });
+      };
+      function onClickHandler(){
+    console.log("Sign in with Google button clicked...")
+  }
+  
+
+    </script>
+    <div id="buttonDiv"></div> 
+
+    <div id="g_id_onload"
+     data-client_id="653216433857-1ginl3t33m37ljku8aha7j12u46u16df.apps.googleusercontent.com"
+     data-callback="handleCredentialResponse">
+     <button id="actionButton">Perform Action</button>
+
+</div>
   </body>
 </html>

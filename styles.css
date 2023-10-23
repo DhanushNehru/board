@@ -31,6 +31,13 @@ body {
   margin: 5px 20px;
 }
 
+.sign-in{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 20px;
+}
+
 .color-header {
   color: rgb(44, 39, 39);
   margin: 20px;
@@ -110,8 +117,13 @@ canvas:active {
   }
   
   .github-button-container {
-    position: relative;
-    top: 0;
+    margin: 40px 0px 10px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    border-radius: 50px;
+    padding-right: 24px;
+    width:450px;
   }
 }
 @media screen and (max-width: 550px) {
@@ -134,8 +146,13 @@ canvas:active {
   }
 
   .github-button-container {
-    position: relative;
-    top: 0;
+    margin: 40px 0px 10px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    border-radius: 50px;
+    padding-right: 24px;
+    width:450px;
   }
 }
 
@@ -377,12 +394,16 @@ input[type="color"]::-webkit-color-swatch {
   border: none;
 }
 
-/* position relative not work in media query after this  */
-/* .github-button-container {
-  position: absolute;
-  right: 1rem;
-  top: 1rem;
-} */
+
+.github-button-container {
+  margin: 40px 0px 10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  border-radius: 50px;
+  padding-right: 24px;
+  width:450px;
+}
 
 .shareBtnDiv{
   position: fixed;
@@ -451,4 +472,21 @@ input[type="color"]::-webkit-color-swatch {
   border-radius: 5px;
   background-color: rgb(222, 218, 218);
   display: none;
+}
+
+#g_id_signout{
+  background-color: #43587a;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#g_id_signout:hover {
+  background-color: #415c88;
 }

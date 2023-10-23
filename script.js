@@ -2,7 +2,7 @@ var drawArray = [];
 var drawStep = -1;
 let isPageReloaded =
   JSON.parse(localStorage.getItem("isPageReloaded")) || false;
-
+var email;
 const buttonDownload = document.getElementById("download");
 buttonDownload.addEventListener("click", downloadOptions);
 
@@ -210,7 +210,7 @@ function blackBoard() {
     if (!painting) {
       return;
     }
-
+   
     e.preventDefault();
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
@@ -306,20 +306,20 @@ function onUndo() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
     drawStep--;
     var canvasPic = new Image();
-    canvasPic.src = drawArray[drawStep]; 
-    
+    canvasPic.src = drawArray[drawStep];
+
     // Load the previous drawing from drawArray
     canvasPic.onload = function () {
       ctx.drawImage(canvasPic, 0, 0);
       localStorage.setItem("myCanvas", canvas.toDataURL());
     };
     if (isPageReloaded) {
-       // If the browser tab was reloaded or re-opened
+      // If the browser tab was reloaded or re-opened
       var canvasPicOld = new Image();
       canvasPicOld.src = localStorage.getItem("oldImage");
       canvasPicOld.onload = function () {
         // Draw the previous image on the canvas
-        ctx.drawImage(canvasPicOld, 0, 0); 
+        ctx.drawImage(canvasPicOld, 0, 0);
       };
     } else {
       // Reset the drawArray and drawStep since there are no more previous drawings
@@ -335,58 +335,105 @@ window.addEventListener("beforeunload", function () {
   localStorage.setItem("oldImage", canvas.toDataURL());
 });
 
-// function handleCredentialResponse(response){
-//   // Post JWT token to server-side
-//   fetch("auth_init.php", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ request_type:'user_auth', credential: response.credential }),
-//   })
-//   .then(response => response.json())
-//   .then(data => {
-//       if(data.status == 1){
-//           let responsePayload = data.pdata;
+// Function to handle sign-in response
+function handleCredentialResponse(response) {
+  const result = parseJwt(response.credential);
+  email = result.email;
 
-//           // Display the user account data
-//           let profileHTML = '<h3>Welcome '+responsePayload.given_name+'! <a href="javascript:void(0);" onclick="signOut('+responsePayload.sub+');">Sign out</a></h3>';
-//           profileHTML += '<img src="'+responsePayload.picture+'"/><p><b>Auth ID: </b>'+responsePayload.sub+'</p><p><b>Name: </b>'+responsePayload.name+'</p><p><b>Email: </b>'+responsePayload.email+'</p>';
-//           document.getElementsByClassName("pro-data")[0].innerHTML = profileHTML;
-          
-//           document.querySelector("#btnWrap").classList.add("hidden");
-//           document.querySelector(".pro-data").classList.remove("hidden");
-//       }
-//   })
-//   .catch(console.error);
-// }
+  localStorage.setItem("isSignedIn", "true");
+  localStorage.setItem("email", result.email);
+  localStorage.setItem("name", result.given_name);
 
-// // Sign out the user
-// function signOut(authID) {
-//   document.getElementsByClassName("pro-data")[0].innerHTML = '';
-//   document.querySelector("#btnWrap").classList.remove("hidden");
-//   document.querySelector(".pro-data").classList.add("hidden");
-// }    
- 
-    function handleCredentialResponse(response) {
-       let re= decodeJwtResponse(response.credential);
-    } 
-    function decodeJwtResponse(token){
-      var base64Url = token.split('.')[1];
-      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-  
-      return JSON.parse(jsonPayload);
-  }
-  function parseJwt (token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+  // Show the username
+  const userNameElement = document.getElementById("g_id_user");
+  userNameElement.textContent = `Hi, ${result.given_name}`;
+  userNameElement.style.display = "block";
+  userNameElement.style.color = "white";
 
-    return JSON.parse(jsonPayload);
+  // Hide the sign-in button
+  const signInButton = document.querySelector(".g_id_signin");
+  signInButton.style.display = "none";
+
+  // Show the sign-out button
+  const signOutButton = document.getElementById("g_id_signout");
+  signOutButton.style.display = "block";
 }
+
+// Function to handle sign-out
+function signOut() {
+  // Clear the username
+  const userNameElement = document.getElementById("g_id_user");
+  userNameElement.textContent = "";
+  userNameElement.style.display = "none";
+  email = null;
+
+  localStorage.removeItem("isSignedIn");
+  localStorage.removeItem("email");
+  localStorage.removeItem("email");
+
+  // Show the sign-in button
+  const signInButton = document.querySelector(".g_id_signin");
+  signInButton.style.display = "block";
+
+  // Hide the sign-out button
+  const signOutButton = document.getElementById("g_id_signout");
+  signOutButton.style.display = "none";
+}
+
+function parseJwt(token) {
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
+}
+
+window.addEventListener("load", function () {
+  console.log(1);
+  // Check if the user is already signed in
+  // const isSignedIn = localStorage.getItem("isSignedIn");
+  // const userName = localStorage.getItem("name");
+  // email = localStorage.getItem("email") || null;
+
+  // if (isSignedIn && userName) {
+  //   // Show the username
+  //   const userNameElement = document.getElementById("g_id_user");
+  //   userNameElement.textContent = `Hi, ${userName}`;
+  //   userNameElement.style.display = "block";
+
+  //   // Hide the sign-in button
+  //   const signInButton = document.querySelector(".g_id_signin");
+  //   signInButton.style.display = "none";
+
+  //   // Show the sign-out button
+  //   const signOutButton = document.getElementById("g_id_signout");
+  //   signOutButton.style.display = "block";
+  // }
+ 
+
+  window.onload = function () {
+    google.accounts.id.initialize({
+      client_id: "653216433857-1ginl3t33m37ljku8aha7j12u46u16df.apps.googleusercontent.com",
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large" }  // customization attributes
+    );
+    google.accounts.id.prompt(); // also display the One Tap dialog
+  }
+ 
+});
+ 
+
 loadCanvas();
 
 blackBoard();
