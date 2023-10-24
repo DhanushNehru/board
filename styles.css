@@ -113,7 +113,7 @@ canvas:active {
   .canvas-container button {
     position: relative;
     right: -90px;
-    bottom: -180px;
+    bottom: -260px;
   }
   
   .github-button-container {
@@ -122,8 +122,8 @@ canvas:active {
     align-items: center;
     justify-content: space-between; 
     border-radius: 50px;
-    padding-right: 24px;
-    width:450px;
+    padding-right: 111px;
+    width:548px;
   }
 }
 @media screen and (max-width: 550px) {
@@ -151,8 +151,11 @@ canvas:active {
     align-items: center;
     justify-content: space-between; 
     border-radius: 50px;
-    padding-right: 24px;
-    width:450px;
+    padding-right: 111px;
+    width:548px;
+  }
+  .github-button{
+    justify-content: flex-end; 
   }
 }
 
@@ -401,8 +404,8 @@ input[type="color"]::-webkit-color-swatch {
   align-items: center;
   justify-content: space-between; 
   border-radius: 50px;
-  padding-right: 24px;
-  width:450px;
+  padding-right: 111px;
+  width:548px;
 }
 
 .shareBtnDiv{

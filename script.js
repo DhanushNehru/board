@@ -2,9 +2,16 @@ var drawArray = [];
 var drawStep = -1;
 let isPageReloaded =
   JSON.parse(localStorage.getItem("isPageReloaded")) || false;
-var email;
+var email = localStorage.getItem("email") || null;
+var isSignedIn;
 const buttonDownload = document.getElementById("download");
-buttonDownload.addEventListener("click", downloadOptions);
+buttonDownload.addEventListener("click", function () {
+  if (!isSignedIn) {
+    alert("Please sign in to continue!");
+  } else {
+      downloadOptions();
+  }
+});
 
 const shareBtnPress = document.getElementById("shareBtn");
 shareBtnPress.addEventListener("click", (elem) => {
@@ -203,38 +210,43 @@ function blackBoard() {
     painting = false;
     ctx.beginPath();
     pushCanvas();
-    saveCanvas();
+    saveCanvas(email);
   }
 
   function draw(e) {
     if (!painting) {
       return;
     }
-   
-    e.preventDefault();
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    if (e.type == "touchmove") {
-      console.log(e.touches[0]);
-      ctx.lineTo(e.touches[0].clientX, e.touches[0].clientY);
+    if (!isSignedIn) {
+      alert("Please signin to continue!");
+      painting = false;
     } else {
-      ctx.lineTo(e.offsetX, e.offsetY);
-    }
+      console.log("gf");
+      e.preventDefault();
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      if (e.type == "touchmove") {
+        console.log(e.touches[0]);
+        ctx.lineTo(e.touches[0].clientX, e.touches[0].clientY);
+      } else {
+        ctx.lineTo(e.offsetX, e.offsetY);
+      }
 
-    if (e.type == "touchmove") {
-      lastX = e.touches[0].clientX;
-      lastY = e.touches[0].clientY;
-    } else {
-      lastX = e.offsetX;
-      lastY = e.offsetY;
-    }
-    ctx.stroke();
+      if (e.type == "touchmove") {
+        lastX = e.touches[0].clientX;
+        lastY = e.touches[0].clientY;
+      } else {
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+      }
+      ctx.stroke();
 
-    saveCanvas();
+      saveCanvas(email);
+    }
   }
 
-  function saveCanvas() {
-    localStorage.setItem("myCanvas", canvas.toDataURL());
+  function saveCanvas(email) {
+    localStorage.setItem(`myCanvas_${email}`, canvas.toDataURL());
   }
 
   //event listeners
@@ -265,8 +277,8 @@ function pushCanvas() {
   }
 }
 // Save the canvas data URL to localStorage
-function saveCanvas() {
-  localStorage.setItem("myCanvas", canvas.toDataURL());
+function saveCanvas(email) {
+   localStorage.setItem(`myCanvas_${email}`, canvas.toDataURL());
 }
 
 function onClear() {
@@ -274,18 +286,17 @@ function onClear() {
   const context = canvas.getContext("2d");
 
   context.clearRect(0, 0, canvas.width, canvas.height);
-
-  localStorage.setItem("myCanvas", null);
+  localStorage.setItem(`myCanvas_${email}`, null);
   pushCanvas();
-  saveCanvas();
+  saveCanvas(email);
 }
 
-function loadCanvas() {
-  if (localStorage.getItem("myCanvas") !== "null") {
+function loadCanvas(email) {
+  if (localStorage.getItem(`myCanvas_${email}`) !== null) {
     const canvas = document.getElementById("black-board");
     const ctx = canvas.getContext("2d");
 
-    const dataURL = localStorage.getItem("myCanvas");
+    const dataURL = localStorage.getItem(`myCanvas_${email}`);
 
     let img = new Image();
 
@@ -311,12 +322,13 @@ function onUndo() {
     // Load the previous drawing from drawArray
     canvasPic.onload = function () {
       ctx.drawImage(canvasPic, 0, 0);
-      localStorage.setItem("myCanvas", canvas.toDataURL());
+      console.log(email);
+      localStorage.setItem(`myCanvas_${email}`, canvas.toDataURL());
     };
     if (isPageReloaded) {
       // If the browser tab was reloaded or re-opened
       var canvasPicOld = new Image();
-      canvasPicOld.src = localStorage.getItem("oldImage");
+      canvasPicOld.src = localStorage.getItem(`oldImage_${email}`);
       canvasPicOld.onload = function () {
         // Draw the previous image on the canvas
         ctx.drawImage(canvasPicOld, 0, 0);
@@ -332,31 +344,37 @@ function onUndo() {
 window.addEventListener("beforeunload", function () {
   const canvas = document.getElementById("black-board");
   localStorage.setItem("isPageReloaded", "true");
-  localStorage.setItem("oldImage", canvas.toDataURL());
+  localStorage.setItem(`oldImage_${email}`, canvas.toDataURL());
 });
 
 // Function to handle sign-in response
 function handleCredentialResponse(response) {
-  const result = parseJwt(response.credential);
-  email = result.email;
+  if (response.credential) {
+    const result = parseJwt(response.credential);
+    email = result.email;
+    isSignedIn=true;
 
-  localStorage.setItem("isSignedIn", "true");
-  localStorage.setItem("email", result.email);
-  localStorage.setItem("name", result.given_name);
+    localStorage.setItem("isSignedIn", "true");
+    localStorage.setItem("email", result.email);
+    localStorage.setItem("name", result.given_name);
+    loadCanvas(email);
 
-  // Show the username
-  const userNameElement = document.getElementById("g_id_user");
-  userNameElement.textContent = `Hi, ${result.given_name}`;
-  userNameElement.style.display = "block";
-  userNameElement.style.color = "white";
+    // Show the username
+    const userNameElement = document.getElementById("g_id_user");
+    userNameElement.textContent = `Hi, ${result.given_name}`;
+    userNameElement.style.display = "block";
+    userNameElement.style.color = "white";
 
-  // Hide the sign-in button
-  const signInButton = document.querySelector(".g_id_signin");
-  signInButton.style.display = "none";
+    // Hide the sign-in button
+    const signInButton = document.querySelector(".g_id_signin");
+    signInButton.style.display = "none";
 
-  // Show the sign-out button
-  const signOutButton = document.getElementById("g_id_signout");
-  signOutButton.style.display = "block";
+    // Show the sign-out button
+    const signOutButton = document.getElementById("g_id_signout");
+    signOutButton.style.display = "block";
+  } else {
+    google.accounts.id.prompt();
+  }
 }
 
 // Function to handle sign-out
@@ -366,6 +384,9 @@ function signOut() {
   userNameElement.textContent = "";
   userNameElement.style.display = "none";
   email = null;
+  isSignedIn=false;
+  drawArray = [];
+  drawStep = -1;
 
   localStorage.removeItem("isSignedIn");
   localStorage.removeItem("email");
@@ -378,6 +399,13 @@ function signOut() {
   // Hide the sign-out button
   const signOutButton = document.getElementById("g_id_signout");
   signOutButton.style.display = "none";
+
+  const canvas = document.getElementById("black-board");
+  const context = canvas.getContext("2d");
+ 
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+
 }
 
 function parseJwt(token) {
@@ -397,43 +425,28 @@ function parseJwt(token) {
 }
 
 window.addEventListener("load", function () {
-  console.log(1);
   // Check if the user is already signed in
-  // const isSignedIn = localStorage.getItem("isSignedIn");
-  // const userName = localStorage.getItem("name");
-  // email = localStorage.getItem("email") || null;
+  isSignedIn = localStorage.getItem("isSignedIn");
+  const userName = localStorage.getItem("name");
+  email = localStorage.getItem("email") || null;
 
-  // if (isSignedIn && userName) {
-  //   // Show the username
-  //   const userNameElement = document.getElementById("g_id_user");
-  //   userNameElement.textContent = `Hi, ${userName}`;
-  //   userNameElement.style.display = "block";
+  if (isSignedIn && userName) {
+    // Show the username
+    const userNameElement = document.getElementById("g_id_user");
+    userNameElement.textContent = `Hi, ${userName}`;
+    userNameElement.style.display = "block";
+    userNameElement.style.color = "white";
 
-  //   // Hide the sign-in button
-  //   const signInButton = document.querySelector(".g_id_signin");
-  //   signInButton.style.display = "none";
+    // Hide the sign-in button
+    const signInButton = document.querySelector(".g_id_signin");
+    signInButton.style.display = "none";
 
-  //   // Show the sign-out button
-  //   const signOutButton = document.getElementById("g_id_signout");
-  //   signOutButton.style.display = "block";
-  // }
- 
-
-  window.onload = function () {
-    google.accounts.id.initialize({
-      client_id: "653216433857-1ginl3t33m37ljku8aha7j12u46u16df.apps.googleusercontent.com",
-      callback: handleCredentialResponse
-    });
-    google.accounts.id.renderButton(
-      document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large" }  // customization attributes
-    );
-    google.accounts.id.prompt(); // also display the One Tap dialog
+    // Show the sign-out button
+    const signOutButton = document.getElementById("g_id_signout");
+    signOutButton.style.display = "block";
   }
- 
 });
- 
 
-loadCanvas();
+loadCanvas(email);
 
 blackBoard();
