@@ -118,6 +118,16 @@
 
     <script src="script.js"></script>
     <script src="colorChanges.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async></script>
+    <script>
+      var time_stamp = new Date().getTime();
+      var scriptElement = document.createElement("script");
+      scriptElement.src = "https://accounts.google.com/gsi/client?nocache=" + time_stamp;
+      scriptElement.async = true;
+      scriptElement.defer = true;
+      document.body.appendChild(scriptElement);
+    </script>
+    <!-- the above line is equal to <script src="https://accounts.google.com/gsi/client?nocache=timestamp" async defer></script>
+    [time_stamp] dynamic value (random number) to ensure that the browser fetches a fresh version of the script on each page load.
+    -->
   </body>
 </html>
