@@ -9,7 +9,7 @@ buttonDownload.addEventListener("click", function () {
   if (!isSignedIn) {
     alert("Please sign in to continue!");
   } else {
-      downloadOptions();
+    downloadOptions();
   }
 });
 
@@ -278,7 +278,7 @@ function pushCanvas() {
 }
 // Save the canvas data URL to localStorage
 function saveCanvas(email) {
-   localStorage.setItem(`myCanvas_${email}`, canvas.toDataURL());
+  localStorage.setItem(`myCanvas_${email}`, canvas.toDataURL());
 }
 
 function onClear() {
@@ -352,7 +352,7 @@ function handleCredentialResponse(response) {
   if (response.credential) {
     const result = parseJwt(response.credential);
     email = result.email;
-    isSignedIn=true;
+    isSignedIn = true;
 
     localStorage.setItem("isSignedIn", "true");
     localStorage.setItem("email", result.email);
@@ -384,7 +384,7 @@ function signOut() {
   userNameElement.textContent = "";
   userNameElement.style.display = "none";
   email = null;
-  isSignedIn=false;
+  isSignedIn = false;
   drawArray = [];
   drawStep = -1;
 
@@ -402,10 +402,8 @@ function signOut() {
 
   const canvas = document.getElementById("black-board");
   const context = canvas.getContext("2d");
- 
+
   context.clearRect(0, 0, canvas.width, canvas.height);
-
-
 }
 
 function parseJwt(token) {
@@ -447,6 +445,22 @@ window.addEventListener("load", function () {
   }
 });
 
+function loadConfig() {
+  fetch("config.json")
+    .then((response) => response.json())
+    .then((config) => {
+      var client_id = config.client_id;
+      var element = document.getElementById("g_id_onload");
+      console.log(element);
+      element.setAttribute("data-client_id",client_id)
+    })
+    .catch((error) => console.error("Error loading configuration:", error));
+}
+
 loadCanvas(email);
 
 blackBoard();
+
+document.addEventListener("DOMContentLoaded", function () {
+  loadConfig();
+});
