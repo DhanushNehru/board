@@ -23,7 +23,7 @@ You can use Gitpod in the cloud [![Gitpod Ready-to-Code](https://img.shields.io/
 
 To run the project locally we need to setup google signin initially and need a local server like Python's HTTP server or Node.js.
 
-## Setting Up Google Sign-In
+### Setting Up Google Sign-In
 
 1. **Create a Google Cloud Project:**
    - Visit the [Google Cloud Console](https://console.cloud.google.com/).
