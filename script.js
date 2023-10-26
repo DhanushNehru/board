@@ -2,9 +2,16 @@ var drawArray = [];
 var drawStep = -1;
 let isPageReloaded =
   JSON.parse(localStorage.getItem("isPageReloaded")) || false;
-
+var email = localStorage.getItem("email") || null;
+var isSignedIn;
 const buttonDownload = document.getElementById("download");
-buttonDownload.addEventListener("click", downloadOptions);
+buttonDownload.addEventListener("click", function () {
+  if (!isSignedIn) {
+    alert("Please sign in to continue!");
+  } else {
+    downloadOptions();
+  }
+});
 
 const shareBtnPress = document.getElementById("shareBtn");
 shareBtnPress.addEventListener("click", (elem) => {
@@ -203,38 +210,43 @@ function blackBoard() {
     painting = false;
     ctx.beginPath();
     pushCanvas();
-    saveCanvas();
+    saveCanvas(email);
   }
 
   function draw(e) {
     if (!painting) {
       return;
     }
-
-    e.preventDefault();
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-    if (e.type == "touchmove") {
-      console.log(e.touches[0]);
-      ctx.lineTo(e.touches[0].clientX, e.touches[0].clientY);
+    if (!isSignedIn) {
+      alert("Please signin to continue!");
+      painting = false;
     } else {
-      ctx.lineTo(e.offsetX, e.offsetY);
-    }
+      console.log("gf");
+      e.preventDefault();
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      if (e.type == "touchmove") {
+        console.log(e.touches[0]);
+        ctx.lineTo(e.touches[0].clientX, e.touches[0].clientY);
+      } else {
+        ctx.lineTo(e.offsetX, e.offsetY);
+      }
 
-    if (e.type == "touchmove") {
-      lastX = e.touches[0].clientX;
-      lastY = e.touches[0].clientY;
-    } else {
-      lastX = e.offsetX;
-      lastY = e.offsetY;
-    }
-    ctx.stroke();
+      if (e.type == "touchmove") {
+        lastX = e.touches[0].clientX;
+        lastY = e.touches[0].clientY;
+      } else {
+        lastX = e.offsetX;
+        lastY = e.offsetY;
+      }
+      ctx.stroke();
 
-    saveCanvas();
+      saveCanvas(email);
+    }
   }
 
-  function saveCanvas() {
-    localStorage.setItem("myCanvas", canvas.toDataURL());
+  function saveCanvas(email) {
+    localStorage.setItem(`myCanvas_${email}`, canvas.toDataURL());
   }
 
   //event listeners
@@ -265,8 +277,8 @@ function pushCanvas() {
   }
 }
 // Save the canvas data URL to localStorage
-function saveCanvas() {
-  localStorage.setItem("myCanvas", canvas.toDataURL());
+function saveCanvas(email) {
+  localStorage.setItem(`myCanvas_${email}`, canvas.toDataURL());
 }
 
 function onClear() {
@@ -274,18 +286,17 @@ function onClear() {
   const context = canvas.getContext("2d");
 
   context.clearRect(0, 0, canvas.width, canvas.height);
-
-  localStorage.setItem("myCanvas", null);
+  localStorage.setItem(`myCanvas_${email}`, null);
   pushCanvas();
-  saveCanvas();
+  saveCanvas(email);
 }
 
-function loadCanvas() {
-  if (localStorage.getItem("myCanvas") !== "null") {
+function loadCanvas(email) {
+  if (localStorage.getItem(`myCanvas_${email}`) !== null) {
     const canvas = document.getElementById("black-board");
     const ctx = canvas.getContext("2d");
 
-    const dataURL = localStorage.getItem("myCanvas");
+    const dataURL = localStorage.getItem(`myCanvas_${email}`);
 
     let img = new Image();
 
@@ -306,20 +317,21 @@ function onUndo() {
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
     drawStep--;
     var canvasPic = new Image();
-    canvasPic.src = drawArray[drawStep]; 
-    
+    canvasPic.src = drawArray[drawStep];
+
     // Load the previous drawing from drawArray
     canvasPic.onload = function () {
       ctx.drawImage(canvasPic, 0, 0);
-      localStorage.setItem("myCanvas", canvas.toDataURL());
+      console.log(email);
+      localStorage.setItem(`myCanvas_${email}`, canvas.toDataURL());
     };
     if (isPageReloaded) {
-       // If the browser tab was reloaded or re-opened
+      // If the browser tab was reloaded or re-opened
       var canvasPicOld = new Image();
-      canvasPicOld.src = localStorage.getItem("oldImage");
+      canvasPicOld.src = localStorage.getItem(`oldImage_${email}`);
       canvasPicOld.onload = function () {
         // Draw the previous image on the canvas
-        ctx.drawImage(canvasPicOld, 0, 0); 
+        ctx.drawImage(canvasPicOld, 0, 0);
       };
     } else {
       // Reset the drawArray and drawStep since there are no more previous drawings
@@ -332,9 +344,123 @@ function onUndo() {
 window.addEventListener("beforeunload", function () {
   const canvas = document.getElementById("black-board");
   localStorage.setItem("isPageReloaded", "true");
-  localStorage.setItem("oldImage", canvas.toDataURL());
+  localStorage.setItem(`oldImage_${email}`, canvas.toDataURL());
 });
 
-loadCanvas();
+// Function to handle sign-in response
+function handleCredentialResponse(response) {
+  if (response.credential) {
+    const result = parseJwt(response.credential);
+    email = result.email;
+    isSignedIn = true;
+
+    localStorage.setItem("isSignedIn", "true");
+    localStorage.setItem("email", result.email);
+    localStorage.setItem("name", result.given_name);
+    loadCanvas(email);
+
+    // Show the username
+    const userNameElement = document.getElementById("g_id_user");
+    userNameElement.textContent = `Hi, ${result.given_name}`;
+    userNameElement.style.display = "block";
+    userNameElement.style.color = "white";
+
+    // Hide the sign-in button
+    const signInButton = document.querySelector(".g_id_signin");
+    signInButton.style.display = "none";
+
+    // Show the sign-out button
+    const signOutButton = document.getElementById("g_id_signout");
+    signOutButton.style.display = "block";
+  } else {
+    google.accounts.id.prompt();
+  }
+}
+
+// Function to handle sign-out
+function signOut() {
+  // Clear the username
+  const userNameElement = document.getElementById("g_id_user");
+  userNameElement.textContent = "";
+  userNameElement.style.display = "none";
+  email = null;
+  isSignedIn = false;
+  drawArray = [];
+  drawStep = -1;
+
+  localStorage.removeItem("isSignedIn");
+  localStorage.removeItem("email");
+  localStorage.removeItem("email");
+
+  // Show the sign-in button
+  const signInButton = document.querySelector(".g_id_signin");
+  signInButton.style.display = "block";
+
+  // Hide the sign-out button
+  const signOutButton = document.getElementById("g_id_signout");
+  signOutButton.style.display = "none";
+
+  const canvas = document.getElementById("black-board");
+  const context = canvas.getContext("2d");
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function parseJwt(token) {
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    window
+      .atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
+}
+
+window.addEventListener("load", function () {
+  // Check if the user is already signed in
+  isSignedIn = localStorage.getItem("isSignedIn");
+  const userName = localStorage.getItem("name");
+  email = localStorage.getItem("email") || null;
+
+  if (isSignedIn && userName) {
+    // Show the username
+    const userNameElement = document.getElementById("g_id_user");
+    userNameElement.textContent = `Hi, ${userName}`;
+    userNameElement.style.display = "block";
+    userNameElement.style.color = "white";
+
+    // Hide the sign-in button
+    const signInButton = document.querySelector(".g_id_signin");
+    signInButton.style.display = "none";
+
+    // Show the sign-out button
+    const signOutButton = document.getElementById("g_id_signout");
+    signOutButton.style.display = "block";
+  }
+});
+
+function loadConfig() {
+  fetch("config.json")
+    .then((response) => response.json())
+    .then((config) => {
+      var client_id = config.client_id;
+      var element = document.getElementById("g_id_onload");
+      console.log(element);
+      element.setAttribute("data-client_id",client_id)
+    })
+    .catch((error) => console.error("Error loading configuration:", error));
+}
+
+loadCanvas(email);
 
 blackBoard();
+
+document.addEventListener("DOMContentLoaded", function () {
+  loadConfig();
+});
