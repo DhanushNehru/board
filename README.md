@@ -39,7 +39,7 @@ To run the project locally we need to setup google signin initially and need a l
    - Choose the application type as Web application and add authorized JavaScript origins. ( eg. http://localhost and http://localhost:3000) 
    - Note the generated "Client ID."
 
-4. **Set `data-client-id` in HTML from a JSON file:**
+4. **Set `data-client_id` in HTML from a JSON file:**
     - In config.json file replace the client_id with the copied value
 
 ### Running the Project
