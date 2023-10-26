@@ -44,7 +44,7 @@ To run the project locally we need to setup google signin initially and need a l
 
 ### Running the Project
 
-To run the project locally, you need a local server. Before running the project, make sure you have either Python or Node.js installed.
+To run the project locally, you need a local server. Before that, make sure you have either Python or Node.js installed.
 
 - **Python:** Run the project with Python's HTTP server using: `python -m http.server 3000`.
 - **Node.js:** Start the project with `http-server` using: `npx http-server -p 3000`.
