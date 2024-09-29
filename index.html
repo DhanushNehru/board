@@ -97,10 +97,41 @@
           value="#FFFFFF"
         />
       </div>
+      
       <div class="color-selection pen-color">
         <div class="color-header">Pen Colour :</div>
         <input type="color" name="penColor" id="pen-color" />
       </div>
+      
+      <div class="color-selection pen-thickness">
+        <div class="color-header">Pen Thickness :</div>
+        <input
+          type="range"
+          name="penThickness"
+          id="pen-thickness"
+          min="1"
+          max="10"
+          value="5"
+        />
+      </div>
+      
+      <div class="color-selection eraser">
+        <div class="color-header">Eraser :</div>
+        <button id="eraser-btn">Enable Eraser</button>
+      </div>
+      
+      <div class="color-selection eraser-thickness">
+        <div class="color-header">Eraser Thickness :</div>
+        <input
+          type="range"
+          name="eraserThickness"
+          id="eraser-thickness"
+          min="5"
+          max="30"
+          value="10"
+        />
+      </div>
+      
     </div>
     <div class="canvas-container">
       <canvas id="black-board"></canvas>
