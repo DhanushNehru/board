@@ -13,7 +13,30 @@ body {
   align-items: center;
   justify-content: center;
 }
+#eraser-btn{
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+}
+#eraser-btn:hover{
+  padding: 6px 10px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  background: #888;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+#eraser-btn:active {
+  background-color: #415c88;
+  transform: translateY(0); 
+  color: white;
 
+}
 .selectors {
   margin: auto;
   display: flex;
