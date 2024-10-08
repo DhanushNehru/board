@@ -6,7 +6,7 @@ html {
 
 body {
   font-family: "Poppins", sans-serif;
-  background: #2c3131;
+  background: linear-gradient(to bottom right,rgb(77, 70, 70),rgb(0, 0, 0));
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -42,8 +42,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to right, #eea959, #e68a22);
-  border-radius: 50px;
+  background: linear-gradient(to left, #00cc99, #2fa9bc);
+  border-radius: 15px;
   padding-right: 40px;
 }
 
@@ -196,10 +196,11 @@ canvas:active {
   text-decoration: none;
   display: inline-block;
   font-size: 20px;
-  background: linear-gradient(to left, purple, rgb(187, 62, 187));
+  background: linear-gradient(to left, #0490d1, #6b88e6);
   border-radius: 15px;
   width: 100%;
 }
+
 
 .clear-download-undo-button .undo{
   border: none;
@@ -209,7 +210,7 @@ canvas:active {
   text-decoration: none;
   display: inline-block;
   font-size: 20px;
-  background: linear-gradient(to left, rgb(15, 12, 67), rgb(139, 81, 228));
+  background: linear-gradient(to left, rgb(3, 255, 116), rgb(33, 235, 157));
   border-radius: 15px;
   width: 100%;
 }
