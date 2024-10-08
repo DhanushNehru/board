@@ -51,6 +51,10 @@ To run the project locally, you need a local server. Before that, make sure you 
 
 Ensure that the port number mentioned here matches the authorized JavaScript origins. If you have any doubts, refer to the [screenshots](https://github.com/DhanushNehru/board/pull/57) in the comments for additional assistance.
 
+### Linting Status
+
+![Linting Status](https://github.com/DhanushNehru/board/actions/workflows/lint.yml/badge.svg)
+
 Clone the project & start contributing
 
 Hey, I am Dhanush N,the maintainer of this opensource repository. You can connect with me and support or follow my work via [Twitter](https://twitter.com/Dhanush_Nehru) / [Instagram](https://www.instagram.com/dhanush_nehru/) / [Youtube](https://www.youtube.com/@dhanushnehru?sub_confirmation=1) / [Github](https://github.com/DhanushNehru) / [Newsletter](https://dhanushn.substack.com/) / [Discord](https://discord.com/invite/Yn9g6KuWyA)
