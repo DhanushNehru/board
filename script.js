@@ -14,7 +14,7 @@ buttonDownload.addEventListener("click", function () {
 });
 
 const shareBtnPress = document.getElementById("shareBtn");
-shareBtnPress.addEventListener("click", (elem) => {
+shareBtnPress.addEventListener("click", () => {
   const currElemStatus = document.getElementById("allOptions").style.display;
   if (currElemStatus == "flex") {
     document.getElementById("allOptions").style.display = "none";
@@ -27,6 +27,7 @@ shareBtnPress.addEventListener("click", (elem) => {
   }
 });
 
+// eslint-disable-next-line no-unused-vars
 function copyClipFun() {
   navigator.clipboard.writeText("https://board-dhanushnehru.netlify.app/");
 }
@@ -201,10 +202,10 @@ function blackBoard() {
   let lastY = 0;
 
   //functions
-  function startPosition(e) {
-    painting = true;
-    draw(e);
-  }
+  // function startPosition(e) {
+  //   painting = true;
+  //   draw(e);
+  // }
 
   function endPosition() {
     painting = false;
@@ -266,7 +267,7 @@ function blackBoard() {
   canvas.addEventListener("touchmove", draw);
 }
 
-function pushCanvas() {
+function pushCanvas(canvas) {
   drawStep++;
   if (drawStep === drawArray.length) {
     const tempArray = drawArray.slice(0, drawArray.length);
@@ -277,18 +278,19 @@ function pushCanvas() {
   }
 }
 // Save the canvas data URL to localStorage
-function saveCanvas(email) {
+function saveCanvas(email, canvas) {
   localStorage.setItem(`myCanvas_${email}`, canvas.toDataURL());
 }
 
+// eslint-disable-next-line no-unused-vars
 function onClear() {
   const canvas = document.getElementById("black-board");
   const context = canvas.getContext("2d");
 
   context.clearRect(0, 0, canvas.width, canvas.height);
   localStorage.setItem(`myCanvas_${email}`, null);
-  pushCanvas();
-  saveCanvas(email);
+  pushCanvas(canvas);
+  saveCanvas(email, canvas);
 }
 
 function loadCanvas(email) {
@@ -307,6 +309,7 @@ function loadCanvas(email) {
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 function onUndo() {
   //function to undo the drawing
   if (drawStep >= 0) {
@@ -348,6 +351,7 @@ window.addEventListener("beforeunload", function () {
 });
 
 // Function to handle sign-in response
+// eslint-disable-next-line no-unused-vars
 function handleCredentialResponse(response) {
   if (response.credential) {
     const result = parseJwt(response.credential);
@@ -373,11 +377,13 @@ function handleCredentialResponse(response) {
     const signOutButton = document.getElementById("g_id_signout");
     signOutButton.style.display = "block";
   } else {
+    // eslint-disable-next-line no-undef
     google.accounts.id.prompt();
   }
 }
 
 // Function to handle sign-out
+// eslint-disable-next-line no-unused-vars
 function signOut() {
   // Clear the username
   const userNameElement = document.getElementById("g_id_user");
@@ -452,7 +458,7 @@ function loadConfig() {
       var client_id = config.client_id;
       var element = document.getElementById("g_id_onload");
       console.log(element);
-      element.setAttribute("data-client_id",client_id)
+      element.setAttribute("data-client_id", client_id)
     })
     .catch((error) => console.error("Error loading configuration:", error));
 }
