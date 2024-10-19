@@ -1,220 +1,385 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-html {
+/* Theme colors */
+:root {
+  --primary-color: #e0f2f1;
+  --secondary-color: #b2dfdb;
+  --text-color: #004d40;
+  --accent-color: #00897b;
+  --hover-color: #00695c;
+  --button-color: #4db6ac;
+  --error-color: #e53935;
+}
+
+html, body {
   height: 100%;
 }
 
 body {
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(to bottom right,rgb(77, 70, 70),rgb(0, 0, 0));
-  height: 100%;
+  background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #80deea 100%);
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding: 20px;
+  min-height: 100vh;
 }
-#eraser-btn{
-  padding: 6px 10px;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-}
-#eraser-btn:hover{
-  padding: 6px 10px;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-  background: #888;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transform: translateY(-2px);
-}
-#eraser-btn:active {
-  background-color: #415c88;
-  transform: translateY(0); 
-  color: white;
 
+/* Header styles */
+.github-button-container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 15px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.selectors {
-  margin: auto;
+
+/* Sign-in and Star button enhancements */
+.sign-in {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: linear-gradient(to left, #00cc99, #2fa9bc);
+  gap: 15px;
+}
+
+#g_id_signout {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+#g_id_signout:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.github-button {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  padding: 8px 15px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.github-button:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Selector container improvements */
+.selectors {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
   border-radius: 15px;
-  padding-right: 40px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .color-selection {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin: 5px 20px;
-}
-
-.sign-in{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 5px 20px;
+  gap: 10px;
+  min-width: 120px;
 }
 
 .color-header {
-  color: rgb(44, 39, 39);
-  margin: 18px;
+  color: var(--text-color);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 5px;
 }
 
+/* Canvas styles */
 .canvas-container {
-  height: 100%;
+  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  margin: 20px 0;
 }
 
 canvas {
-  background: rgb(255, 255, 255);
-  border: 3px solid rgba(0, 0, 0, 0.5);
-  width: 40rem;
-  height: 26rem;
-  cursor: grabbing;
-  box-shadow: 20px 20px 50px rgb(0, 0, 0);
-  border-radius: 20px;
-  cursor: url(./assets/ico/pen-cursor.ico) 0 50, pointer;
-  margin: 15px;
+  background: #ffffff;
+  border: 3px solid var(--accent-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90vw;
+  height: 70vh;
+  max-width: 1400px;
 }
 
-.clear-button {
-  padding: 30px;
+/* Button styles */
+.btn, #eraser-btn {
+  cursor: pointer;
+  border: none;
+  color: #ffffff;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  background-color: var(--button-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover, #eraser-btn:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active, #eraser-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background-color: #9b59b6;
+}
+
+.btn-secondary {
+  background-color: #3498db;
+}
+
+.btn-success {
+  background-color: #2ecc71;
+}
+
+#eraser-btn {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: 2px solid var(--accent-color);
+}
+
+/* Action buttons */
+.action-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.clear-download-undo-button {
+  display: flex;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 15px;
+  border-radius: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  cursor: pointer;
+  border: none;
+  color: var(--text-color);
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-secondary {
+  background-color: rgba(52, 152, 219, 0.7);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: rgba(52, 152, 219, 0.9);
+}
+
+.btn-success {
+  background-color: rgba(46, 204, 113, 0.7);
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: rgba(46, 204, 113, 0.9);
+}
+
+.btn-primary {
+  background-color: rgba(155, 89, 182, 0.7);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: rgba(155, 89, 182, 0.9);
+}
+
+#download img {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  filter: brightness(0) invert(1);
+}
+
+/* Share button */
+.shareBtnDiv {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+#shareBtn {
+  background-color: var(--accent-color);
+  border: none;
+  border-radius: 50%;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#shareBtn:hover {
+  background-color: var(--hover-color);
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#shareBtn img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1);
+}
+
+#allOptions {
+  display: none;
   position: absolute;
-  right: 200px;
+  bottom: 60px;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.clear-button button {
-  cursor: pointer;
-  border: none;
-  color: white;
-  padding: 15px 30px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  background: linear-gradient(to left, purple, rgb(187, 62, 187));
-  border-radius: 15px;
-  width: 100%;
+#allOptions a {
+  display: block;
+  margin-bottom: 10px;
 }
 
-.clear-button button:hover {
-  color: black;
-  background-color: white;
+#copyCopy {
+  position: relative;
 }
 
-canvas:active {
-  border-color: rgb(192, 192, 192);
+#copyStatDiv {
+  position: absolute;
+  font-size: 12px;
+  white-space: nowrap;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  display: none;
 }
 
-@media screen and (max-width: 700px) {
-  .selectors {
-    width: 96%;
-    padding: 5px;
-    margin-bottom: 20px;
-    margin-top: 0px;
-    margin-left: auto;
-    margin-right: auto;
-    height: 80px;
-  }
-  canvas {
-    background: white;
-    margin-bottom: 10px;
-    width: 95vw;
-    height: 70vh;
-    cursor: grabbing;
-  }
-  
-  .canvas-container button {
-    position: relative;
-    right: -90px;
-    bottom: -260px;
-  }
-  
-  .github-button-container {
-    margin: 40px 0px 10px 0px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
-    border-radius: 50px;
-    padding-right: 111px;
-    width:548px;
-  }
-}
-@media screen and (max-width: 550px) {
-  .selectors {
-    width: 100%;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    height: 200px;
-  }
-  
-  .color-header{
-    font-size: 15px;
-    padding: 0;
-    margin: 10px;
-  }
-
-  .color-selection {
-    margin: 0;
-  }
-
-  .github-button-container {
-    margin: 40px 0px 10px 0px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between; 
-    border-radius: 50px;
-    padding-right: 111px;
-    width:548px;
-  }
-  .github-button{
-    justify-content: flex-end; 
-  }
-}
-
-.clear-download-undo-button button {
-  background: unset;
-  border: unset;
+/* Input styling improvements */
+input[type="color"], input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
   cursor: pointer;
 }
 
-.clear-download-undo-button .clear {
+input[type="color"] {
+  width: 40px;
+  height: 40px;
   border: none;
-  color: white;
-  padding: 15px 30px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  background: linear-gradient(to left, #0490d1, #6b88e6);
-  border-radius: 15px;
-  width: 100%;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
-
-.clear-download-undo-button .undo{
-  border: none;
-  color: white;
-  padding: 15px 30px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  background: linear-gradient(to left, rgb(3, 255, 116), rgb(33, 235, 157));
-  border-radius: 15px;
-  width: 100%;
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
 }
 
+input[type="color"]::-webkit-color-swatch,
+input[type="color"]::-moz-color-swatch {
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px var(--accent-color);
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 7px;
+  background: var(--secondary-color);
+  border-radius: 5px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb,
+input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover,
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+}
+
+/* Modal styles */
 .modal {
   position: fixed;
   z-index: 1;
@@ -223,297 +388,145 @@ canvas:active {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
-  background-color: #fefefe;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 450px;
-  display: grid;
-  gap: 2rem;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
 }
 
 .modal-content .input-name {
-  padding: 1rem;
-  border: 2px solid #2c3131;
-  font-size: 1rem;
-  font-weight: bold;
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--accent-color);
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
 }
 
 .modal-content .input-name:focus {
-  border: 2px solid #bb3ebb;
+  border-color: var(--hover-color);
   outline: none;
 }
 
-
-.clear-download-undo-button {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  /* Temporary workaround for responsive issue to be fixed */
-}
-
 .label-input {
-  display: grid;
-  gap: 10px;
-  font-size: 1.4rem;
-  font-weight: bold;
-  line-height: 1.1;
-  margin-top: 1rem;
+  font-size: 18px;
+  color: var(--text-color);
+  margin-bottom: 10px;
+  display: block;
 }
 
 .download-list-formats {
   display: flex;
-  align-items: center;
-  gap: 50px;
-
+  justify-content: space-around;
+  margin: 20px 0;
 }
 
 .download-format-control {
-  font-size: 1.4rem;
-  font-weight: bold;
-  line-height: 1.1;
+  font-size: 16px;
   display: flex;
-  grid-template-columns: 1em auto;
-  gap: 0.5em;
+  align-items: center;
+  gap: 5px;
   cursor: pointer;
 }
 
-.download-format-control:focus-within {
-  color: #bb3ebb;
-}
-
-.download-format-control input[type=radio] {
-  cursor: pointer;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+.download-format-control input[type="radio"] {
   margin: 0;
-  font: inherit;
-  color: currentColor;
-  width: 1.15em;
-  height: 1.15em;
-  border: 0.15em solid currentColor;
-  border-radius: 50%;
-  transform: translateY(-0.075em);
-  display: grid;
-  place-content: center;
-}
-
-.download-format-control input[type=radio]::before {
-  content: "";
-  width: 0.65em;
-  height: 0.65em;
-  border-radius: 50%;
-  transform: scale(0);
-  transition: 120ms transform ease-in-out;
-  box-shadow: inset 1em 1em #bb3ebb;
-  background-color: CanvasText;
-}
-
-.download-format-control input[type=radio]:checked::before {
-  transform: scale(1);
 }
 
 .download-cancel {
   display: flex;
-  margin-top: 1rem;
-  gap: 2rem;
-  justify-items: center;
+  justify-content: space-between;
   align-items: center;
+  margin-top: 20px;
 }
 
-.download-cancel button {
+.btn-cancel, .btn-download {
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  border: none;
-  font-size: 20px;
-  height: fit-content;
+  transition: all 0.3s ease;
 }
 
 .btn-cancel {
-  padding: 0;
-  color: #2c3131;
-  text-align: center;
-  display: inline-block;
-  font-size: 20px;
-  border-radius: 15px;
-  background: unset;
+  background-color: var(--button-color);
+  color: var(--text-color);
+  border: 2px solid var(--accent-color);
 }
 
 .btn-download {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
   border: none;
-  color: white;
-  padding: 15px 30px;
-  text-align: center;
-  font-size: 20px;
-  background: linear-gradient(to left, purple, rgb(187, 62, 187));
-  border-radius: 15px;
 }
 
+.btn-cancel:hover, .btn-download:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
 
 .error {
-  -webkit-animation: shake 0.2s ease-in-out 0s 2;
   animation: shake 0.2s ease-in-out 0s 2;
-  border: 2px solid red !important;
-}
-
-@-webkit-keyframes shake {
-  0% {
-    margin: 0;
-  }
-
-  25% {
-    margin: 0 0.5rem;
-  }
-
-
-  75% {
-    margin: 0 -0.5rem;
-  }
-
-  100% {
-    margin: 0;
-  }
+  border: 2px solid var(--error-color) !important;
 }
 
 @keyframes shake {
-  0% {
-    margin: 0;
+  0%, 100% { margin-left: 0; }
+  25% { margin-left: 0.5rem; }
+  75% { margin-left: -0.5rem; }
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .selectors {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  25% {
-    margin: 0 0.5rem;
+  .color-selection {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
   }
 
-  75% {
-    margin: 0 -0.5rem;
+  .clear-download-undo-button {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 25px;
+    padding: 10px;
   }
 
-  100% {
-    margin: 0;
+  .btn {
+    width: 100%;
+    margin-bottom: 10px;
   }
-}
 
-input[type="color"] {
-  border-radius: 5px;
-  padding: 0;
-  border: 0px solid #DDD;
-}
+  canvas {
+    width: 95vw;
+    height: 60vh;
+  }
 
-input[type="color"]::-moz-color-swatch {
-  border: none;
-}
+  .github-button-container {
+    flex-direction: column;
+    gap: 10px;
+  }
 
-input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 0;
-  border-radius: 0;
-}
+  .sign-in {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-input[type="color"]::-webkit-color-swatch {
-  border: none;
-}
-
-
-.github-button-container {
-  margin: 40px 0px 10px 0px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; 
-  border-radius: 50px;
-  padding-right: 111px;
-  width:548px;
-}
-
-.shareBtnDiv{
-  position: fixed;
-  bottom: 3%;
-  right: 3%;
-}
-
-#shareBtn{
-  position: relative;
-  border-radius: 50%;
-  padding: 1.6rem;
-  width: 2rem;
-  height: 2rem;
-  border: none;
-  background-color: #e1dfdf;
-}
-
-#shareBtn img{
-  position: absolute;
-  width: 80%;
-  left: 50%;
-  top: 50%;
-  translate: -52% -50%;
-}
-
-#shareBtn:hover{
-  background-color: #898289;
-  transform:scale(1.1);
-}
-
-#allOptions{
-  display: none;
-  position: absolute;
-  top: -15.5rem;
-  padding-bottom: 4.5rem;
-  padding-top: 2rem;
-  z-index: -1;
-  border-radius: 20px 20px 30px 30px;
-  background-color: #aca8a8;
-  width: 70px;
-  flex-wrap: wrap;
-  flex-direction: column;
-  gap: 30px;
-  right: -9px;
-}
-
-#allOptions a{
-  background: none;
-  border: none;
-  width: 20px;
-  padding-left: 15px;
-  cursor: default;
-}
-
-#copyCopy{
-  position: relative;
-}
-
-#copyStatDiv{
-  position: absolute;
-  font-size: 9px;
-  white-space: nowrap;
-  top: 0;
-  left: -4.5rem;
-  padding: 3px;
-  border-radius: 5px;
-  background-color: rgb(222, 218, 218);
-  display: none;
-}
-
-#g_id_signout{
-  background-color: #43587a;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 13px;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
-#g_id_signout:hover {
-  background-color: #415c88;
+  #g_id_signout, .github-button {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
 }
