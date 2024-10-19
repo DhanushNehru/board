@@ -1,150 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Drawing Board</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" type="image/x-icon" href="assets/ico/favicon.ico" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </head>
 
   <body>
+    <header>
+      <div class="github-button-container">
+        <div class="sign-in">
+          <span id="g_id_onload" data-callback="handleCredentialResponse" data-auto_prompt="false"></span>
+          <span class="g_id_signin" id="g_id_signin" data-type="standard" data-size="medium" data-theme="filled_black" data-text="sign_in_with" data-shape="square" data-logo_alignment="left"></span>
+          <button onclick="signOut()" id="g_id_signout" style="display: none">Sign Out</button>
+        </div>
+        <span id="g_id_user" style="display: none"></span>
+        <a class="github-button" href="https://github.com/DhanushNehru/board" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star DhanushNehru/board on GitHub">Star</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="drawing-controls">
+        <div class="selectors">
+          <div class="color-selection board-color">
+            <label class="color-header" for="board-color">Board Colour:</label>
+            <input type="color" name="boardColor" id="board-color" value="#FFFFFF" />
+          </div>
+          
+          <div class="color-selection pen-color">
+            <label class="color-header" for="pen-color">Pen Colour:</label>
+            <input type="color" name="penColor" id="pen-color" />
+          </div>
+          
+          <div class="color-selection pen-thickness">
+            <label class="color-header" for="pen-thickness">Pen Thickness:</label>
+            <input type="range" name="penThickness" id="pen-thickness" min="1" max="10" value="5" />
+          </div>
+          
+          <div class="color-selection eraser">
+            <label class="color-header" for="eraser-btn">Eraser:</label>
+            <button id="eraser-btn">Enable Eraser</button>
+          </div>
+          
+          <div class="color-selection eraser-thickness">
+            <label class="color-header" for="eraser-thickness">Eraser Thickness:</label>
+            <input type="range" name="eraserThickness" id="eraser-thickness" min="5" max="30" value="10" />
+          </div>
+        </div>
+      </section>
+
+      <section class="canvas-container">
+        <canvas id="black-board"></canvas>
+      </section>
+
+      <section class="action-buttons">
+        <div class="clear-download-undo-button">
+          <button class="btn btn-secondary clear" title="Clear Board" onclick="onClear()">Clear</button>
+          <button class="btn btn-success undo" title="Undo Board" onclick="onUndo()">Undo</button>
+          <button id="download" class="btn btn-primary" title="Download">
+            <img src="/assets/ico/download.svg" alt="Download" />
+          </button>
+        </div>
+      </section>
+    </main>
+
     <div class="shareBtnDiv">
       <button id="shareBtn">
-        <img
-          src="https://thenounproject.com/api/private/icons/2137557/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0"
-          alt="img loading"
-        />
+        <img src="https://thenounproject.com/api/private/icons/2137557/edit/?backgroundShape=SQUARE&backgroundShapeColor=%23000000&backgroundShapeOpacity=0&exportSize=752&flipX=false&flipY=false&foregroundColor=%23000000&foregroundOpacity=1&imageFormat=png&rotation=0" alt="Share" />
       </button>
       <div id="allOptions">
-        <a
-          href="whatsapp://send?text=https://board-dhanushnehru.netlify.app/"
-          data-action="share/whatsapp/share"
-          ><img
-            width="40px"
-            id="whatsAppBtn"
-            src="https://cdn.iconscout.com/icon/free/png-512/free-whatsapp-42-189793.png?f=webp&w=512"
-            alt="loading"
-        /></a>
-        <a
-          href="https://www.facebook.com/sharer/sharer.php?u=https://board-dhanushnehru.netlify.app/"
-          target="_blank"
-          rel="noopener"
-          ><img
-            width="40px"
-            id="gmailBtn"
-            src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png?ga=GA1.1.942035619.1696882171"
-            alt="loading"
-        /></a>
+        <a href="whatsapp://send?text=https://board-dhanushnehru.netlify.app/" data-action="share/whatsapp/share">
+          <img width="40" id="whatsAppBtn" src="https://cdn.iconscout.com/icon/free/png-512/free-whatsapp-42-189793.png?f=webp&w=512" alt="WhatsApp" />
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://board-dhanushnehru.netlify.app/" target="_blank" rel="noopener">
+          <img width="40" id="gmailBtn" src="https://cdn-icons-png.flaticon.com/512/5968/5968764.png?ga=GA1.1.942035619.1696882171" alt="Facebook" />
+        </a>
         <a onclick="copyClipFun()" id="copyCopy">
           <div id="copyStatDiv">Copy to clipboard</div>
-          <img
-            width="40px"
-            id="linkCopyBtn"
-            src="https://cdn.iconscout.com/icon/free/png-512/free-link-1439747-1214319.png?f=webp&w=512"
-            alt="loading"
-          />
+          <img width="40" id="linkCopyBtn" src="https://cdn.iconscout.com/icon/free/png-512/free-link-1439747-1214319.png?f=webp&w=512" alt="Copy Link" />
         </a>
       </div>
-    </div>
-
-    <div class="github-button-container">
-      <button
-        id="btnGoogleSignIn"
-        style="border: none; background: none"
-      ></button>
-      <div class="sign-in">
-        <span
-          id="g_id_onload"
-          data-callback="handleCredentialResponse"
-          data-auto_prompt="false"
-        >
-        </span>
-        <span
-          class="g_id_signin"
-          id="g_id_signin"
-          data-type="standard"
-          data-size="medium"
-          data-theme="filled_black"
-          data-text="sign_in_with"
-          data-shape="square"
-          data-logo_alignment="left"
-        >
-        </span>
-        <span onclick="signOut()" id="g_id_signout" style="display: none">
-          Sign Out
-        </span>
-      </div>
-      <span id="g_id_user" style="display: none"></span>
-      <a
-        class="github-button"
-        href="https://github.com/DhanushNehru/board"
-        data-icon="octicon-star"
-        data-size="large"
-        data-show-count="true"
-        aria-label="Star DhanushNehru/board on GitHub"
-      >
-        Star
-      </a>
-    </div>
-
-    <div class="selectors">
-      <div class="color-selection board-color">
-        <div class="color-header">Board Colour :</div>
-        <input
-          type="color"
-          name="boardColor"
-          id="board-color"
-          value="#FFFFFF"
-        />
-      </div>
-      
-      <div class="color-selection pen-color">
-        <div class="color-header">Pen Colour :</div>
-        <input type="color" name="penColor" id="pen-color" />
-      </div>
-      
-      <div class="color-selection pen-thickness">
-        <div class="color-header">Pen Thickness :</div>
-        <input
-          type="range"
-          name="penThickness"
-          id="pen-thickness"
-          min="1"
-          max="10"
-          value="5"
-        />
-      </div>
-      
-      <div class="color-selection eraser">
-        <div class="color-header">Eraser :</div>
-        <button id="eraser-btn">Enable Eraser</button>
-      </div>
-      
-      <div class="color-selection eraser-thickness">
-        <div class="color-header">Eraser Thickness :</div>
-        <input
-          type="range"
-          name="eraserThickness"
-          id="eraser-thickness"
-          min="5"
-          max="30"
-          value="10"
-        />
-      </div>
-      
-    </div>
-    <div class="canvas-container">
-      <canvas id="black-board"></canvas>
-    </div>
-
-    <div class="clear-download-undo-button">
-      <button class="clear" title="Clear Board" onclick="onClear()">
-        Clear
-      </button>
-      <button class="undo" title="Undo Board" onclick="onUndo()">Undo</button>
-      <button id="download" title="Download">
-        <img src="/assets/ico/download.svg" />
-      </button>
     </div>
 
     <script src="script.js"></script>
@@ -157,8 +95,5 @@
       scriptElement.defer = true;
       document.body.appendChild(scriptElement);
     </script>
-    <!-- the above line is equal to <script src="https://accounts.google.com/gsi/client?nocache=timestamp" async defer></script>
-    [time_stamp] dynamic value (random number) to ensure that the browser fetches a fresh version of the script on each page load.
-    -->
   </body>
 </html>
