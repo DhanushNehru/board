@@ -256,7 +256,7 @@ canvas {
 }
 
 #download img {
-  width: 20px;
+  width: 80px;
   height: 20px;
   margin-right: 8px;
   filter: brightness(0) invert(1);
@@ -267,6 +267,7 @@ canvas {
   position: fixed;
   bottom: 20px;
   right: 20px;
+  border-radius: 50px;
 }
 
 #shareBtn {
@@ -277,6 +278,7 @@ canvas {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: white;
 }
 
 #shareBtn:hover {
@@ -290,6 +292,34 @@ canvas {
   height: 24px;
   filter: brightness(0) invert(1);
 }
+
+#shareBtn:focus {
+  outline: 3px solid rgba(19, 108, 2, 0.8);
+  outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  #shareBtn {
+     padding: 10px;
+  }
+
+  #shareBtn img {
+     width: 20px;
+     height: 20px;
+  }
+}
+
+.btn-label {
+  color: white;
+  font-size: 16px;
+  margin-left: 8px;
+  display: none; /* Hidden by default */
+}
+
+#shareBtn:hover .btn-label {
+  display: inline; /* Show on hover */
+}
+
 
 #allOptions {
   display: none;
