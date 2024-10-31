@@ -8,21 +8,34 @@
     <link rel="icon" type="image/x-icon" href="assets/ico/favicon.ico" />
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  
   </head>
 
   <body>
-    <header>
-      <div class="github-button-container">
-        <div class="sign-in">
-          <span id="g_id_onload" data-callback="handleCredentialResponse" data-auto_prompt="false"></span>
-          <span class="g_id_signin" id="g_id_signin" data-type="standard" data-size="medium" data-theme="filled_black" data-text="sign_in_with" data-shape="square" data-logo_alignment="left"></span>
-          <button onclick="signOut()" id="g_id_signout" style="display: none">Sign Out</button>
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body w-100 mb-5" data-bs-theme="dark">
+      <div class="container-fluid px-3">
+        <a class="navbar-brand" href="#">Drawing Board</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex w-100 justify-content-end gap-5 pr-4">
+            <li class="nav-item">
+              <div class="sign-in">
+                <span id="g_id_onload" data-callback="handleCredentialResponse" data-auto_prompt="false"></span>
+                <span class="g_id_signin" id="g_id_signin" data-type="standard" data-size="medium" data-theme="filled_black" data-text="sign_in_with" data-shape="square" data-logo_alignment="left"></span>
+                <button onclick="signOut()" id="g_id_signout" style="display: none">Sign Out</button>
+              </div>
+            </li>
+            <li class="nav-item">
+              <span id="g_id_user" style="display: none"></span>
+              <a class="github-button" href="https://github.com/DhanushNehru/board" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star DhanushNehru/board on GitHub">Star</a>
+            </li>
+          </ul>
         </div>
-        <span id="g_id_user" style="display: none"></span>
-        <a class="github-button" href="https://github.com/DhanushNehru/board" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star DhanushNehru/board on GitHub">Star</a>
       </div>
-    </header>
+    </nav>
 
     <main>
       <section class="drawing-controls">
@@ -99,5 +112,7 @@
       scriptElement.defer = true;
       document.body.appendChild(scriptElement);
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
   </body>
 </html>
