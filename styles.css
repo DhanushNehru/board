@@ -508,6 +508,28 @@ input[type="range"]::-moz-range-thumb:hover {
   border: 2px solid var(--error-color) !important;
 }
 
+.footer {
+  background-color: #000000; /* Black color */
+  color: #ffffff; /* White text color for contrast */
+  padding: 20px; /* Space inside the footer */
+  text-align: left; /* Center the text */
+  width: 100%;
+}
+
+a.box {
+  display: inline-block;
+  padding: 10px;
+  border: 2px solid #000;
+  background-color: #302e2e;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+a.box:hover {
+  background-color: #ddd;
+  border-color: #333;
+}
+
 @keyframes shake {
   0%, 100% { margin-left: 0; }
   25% { margin-left: 0.5rem; }
