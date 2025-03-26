@@ -51,6 +51,8 @@ To run the project locally, you need a local server. Before that, make sure you 
 
 Ensure that the port number mentioned here matches the authorized JavaScript origins. If you have any doubts, refer to the [screenshots](https://github.com/DhanushNehru/board/pull/57) in the comments for additional assistance.
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b7251b64-580a-4432-8562-93810eed4ad3/deploy-status?branch=main)](https://app.netlify.com/sites/board-dhanushnehru/deploys)
+
 ### Linting Status
 
 ![Linting Status](https://github.com/DhanushNehru/board/actions/workflows/lint.yml/badge.svg)
