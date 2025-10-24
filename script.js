@@ -4,6 +4,62 @@ let isPageReloaded =
   JSON.parse(localStorage.getItem("isPageReloaded")) || false;
 var email = localStorage.getItem("email") || null;
 var isSignedIn;
+// Drawing state
+var currentTool = "pen"; // pen | line | rectangle | circle | arrow | text
+var currentBrush = "normal"; // normal | marker | highlighter | spray
+var isEraserEnabled = false;
+var zoomScale = 1.0;
+var isGridEnabled = false;
+
+// Expose setters for UI hooks
+window.setTool = function (tool) { currentTool = tool; };
+window.setBrushType = function (brushType) { currentBrush = brushType; };
+window.setPenColor = function (color) {
+  var c = document.getElementById("black-board");
+  var ctx = c.getContext("2d");
+  if (!isEraserEnabled) ctx.strokeStyle = color;
+};
+window.setPenThickness = function (thickness) {
+  var c = document.getElementById("black-board");
+  var ctx = c.getContext("2d");
+  ctx.lineWidth = Number(thickness);
+};
+window.setEraserEnabled = function (enabled) {
+  var c = document.getElementById("black-board");
+  var ctx = c.getContext("2d");
+  isEraserEnabled = enabled;
+  if (isEraserEnabled) {
+    ctx.globalCompositeOperation = "destination-out";
+  } else {
+    ctx.globalCompositeOperation = "source-over";
+  }
+};
+window.setEraserThickness = function (thickness) {
+  var c = document.getElementById("black-board");
+  var ctx = c.getContext("2d");
+  ctx.lineWidth = Number(thickness);
+};
+window.toggleGrid = function () {
+  var c = document.getElementById("black-board");
+  isGridEnabled = !isGridEnabled;
+  if (isGridEnabled) {
+    var gridSize = 20;
+    var color = "rgba(0,0,0,0.08)";
+    c.style.backgroundImage =
+      "linear-gradient(" + color + " 1px, transparent 1px), linear-gradient(90deg, " + color + " 1px, transparent 1px)";
+    c.style.backgroundSize = gridSize + "px " + gridSize + "px";
+  } else {
+    c.style.backgroundImage = "";
+  }
+};
+window.zoomIn = function () { setZoom(zoomScale * 1.2); };
+window.zoomOut = function () { setZoom(zoomScale / 1.2); };
+function setZoom(newScale) {
+  var c = document.getElementById("black-board");
+  zoomScale = Math.max(0.2, Math.min(5, newScale));
+  c.style.transformOrigin = "top left";
+  c.style.transform = "scale(" + zoomScale + ")";
+}
 const buttonDownload = document.getElementById("download");
 buttonDownload.addEventListener("click", function () {
   if (!isSignedIn) {
@@ -200,6 +256,9 @@ function blackBoard() {
   let painting = false;
   let lastX = 0;
   let lastY = 0;
+  let startX = 0;
+  let startY = 0;
+  let snapshot = null; // for shape previews
 
   //functions
   // function startPosition(e) {
@@ -207,7 +266,7 @@ function blackBoard() {
   //   draw(e);
   // }
 
-  function endPosition() {
+  function endPosition(e) {
     painting = false;
     ctx.beginPath();
     pushCanvas();
@@ -222,27 +281,26 @@ function blackBoard() {
       alert("Please signin to continue!");
       painting = false;
     } else {
-      console.log("gf");
       e.preventDefault();
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      if (e.type == "touchmove") {
-        console.log(e.touches[0]);
-        ctx.lineTo(e.touches[0].clientX, e.touches[0].clientY);
+      const { x, y } = getEventPos(e);
+      if (currentTool === "pen" || isEraserEnabled || currentBrush === "spray") {
+        if (currentBrush === "spray") {
+          sprayAt(ctx, x, y, ctx.lineWidth);
+        } else {
+          ctx.beginPath();
+          ctx.moveTo(lastX, lastY);
+          ctx.lineTo(x, y);
+          applyBrush(ctx);
+          ctx.stroke();
+        }
+        lastX = x;
+        lastY = y;
+        saveCanvas(email);
       } else {
-        ctx.lineTo(e.offsetX, e.offsetY);
+        // preview shapes using snapshot
+        if (snapshot) ctx.putImageData(snapshot, 0, 0);
+        drawShapePreview(ctx, startX, startY, x, y, currentTool);
       }
-
-      if (e.type == "touchmove") {
-        lastX = e.touches[0].clientX;
-        lastY = e.touches[0].clientY;
-      } else {
-        lastX = e.offsetX;
-        lastY = e.offsetY;
-      }
-      ctx.stroke();
-
-      saveCanvas(email);
     }
   }
 
@@ -253,18 +311,122 @@ function blackBoard() {
   //event listeners
   canvas.addEventListener("mousedown", (event) => {
     painting = true;
-    lastX = event.offsetX;
-    lastY = event.offsetY;
+    const pos = getEventPos(event);
+    lastX = pos.x; lastY = pos.y;
+    startX = pos.x; startY = pos.y;
+    if (currentTool !== "pen" && !isEraserEnabled && currentBrush !== "spray") {
+      snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    }
   });
   canvas.addEventListener("touchstart", (event) => {
     painting = true;
-    lastX = event.touches[0].clientX;
-    lastY = event.touches[0].clientY;
+    const pos = getEventPos(event);
+    lastX = pos.x; lastY = pos.y;
+    startX = pos.x; startY = pos.y;
+    if (currentTool !== "pen" && !isEraserEnabled && currentBrush !== "spray") {
+      snapshot = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    }
   });
-  canvas.addEventListener("mouseup", endPosition);
-  canvas.addEventListener("touchend", endPosition);
+  canvas.addEventListener("mouseup", (e) => { finalizeShape(e); endPosition(e); });
+  canvas.addEventListener("touchend", (e) => { finalizeShape(e); endPosition(e); });
   canvas.addEventListener("mousemove", draw);
   canvas.addEventListener("touchmove", draw);
+
+  function getEventPos(e) {
+    if (e.type && e.type.startsWith("touch")) {
+      const rect = canvas.getBoundingClientRect();
+      const tx = (e.touches[0].clientX - rect.left) / zoomScale;
+      const ty = (e.touches[0].clientY - rect.top) / zoomScale;
+      return { x: tx, y: ty };
+    }
+    return { x: e.offsetX / zoomScale, y: e.offsetY / zoomScale };
+  }
+
+  function applyBrush(ctx) {
+    if (isEraserEnabled) return; // composite set elsewhere
+    if (currentBrush === "marker") {
+      ctx.globalAlpha = 0.8;
+    } else if (currentBrush === "highlighter") {
+      ctx.globalAlpha = 0.3;
+    } else {
+      ctx.globalAlpha = 1.0;
+    }
+  }
+
+  function sprayAt(ctx, x, y, radius) {
+    const density = 20;
+    const r = Math.max(2, radius);
+    for (let i = 0; i < density; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * r;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist;
+      ctx.fillStyle = ctx.strokeStyle;
+      ctx.globalAlpha = 0.6;
+      ctx.fillRect(x + dx, y + dy, 1, 1);
+    }
+    ctx.globalAlpha = 1.0;
+  }
+
+  function drawShapePreview(ctx, x0, y0, x1, y1, tool) {
+    ctx.beginPath();
+    applyBrush(ctx);
+    if (tool === "line") {
+      ctx.moveTo(x0, y0); ctx.lineTo(x1, y1);
+      ctx.stroke();
+    } else if (tool === "rectangle") {
+      const w = x1 - x0; const h = y1 - y0;
+      ctx.strokeRect(x0, y0, w, h);
+    } else if (tool === "circle") {
+      const rx = x1 - x0; const ry = y1 - y0;
+      const r = Math.hypot(rx, ry);
+      ctx.arc(x0, y0, r, 0, Math.PI * 2);
+      ctx.stroke();
+    } else if (tool === "arrow") {
+      drawArrow(ctx, x0, y0, x1, y1);
+    }
+  }
+
+  function finalizeShape(e) {
+    if (!snapshot) {
+      // pen/eraser/spray or nothing to finalize
+      if (currentTool === "text") {
+        const pos = { x: startX, y: startY };
+        showTextInputModal(function(text) {
+          if (text) {
+            ctx.save();
+            ctx.globalCompositeOperation = "source-over";
+            ctx.fillStyle = ctx.strokeStyle;
+            ctx.font = Math.max(12, ctx.lineWidth * 6) + "px Poppins, sans-serif";
+            ctx.fillText(text, pos.x, pos.y);
+            ctx.restore();
+            saveCanvas(email);
+          }
+        });
+      }
+      return;
+    }
+    ctx.putImageData(snapshot, 0, 0);
+    snapshot = null;
+    const end = e && e.changedTouches && e.changedTouches[0] ? getEventPos({ type: "touchmove", touches: e.changedTouches }) : { x: lastX, y: lastY };
+    drawShapePreview(ctx, startX, startY, end.x || lastX, end.y || lastY, currentTool);
+    saveCanvas(email);
+  }
+
+  function drawArrow(ctx, x0, y0, x1, y1) {
+    const headLength = Math.max(10, ctx.lineWidth * 3);
+    const angle = Math.atan2(y1 - y0, x1 - x0);
+    ctx.moveTo(x0, y0);
+    ctx.lineTo(x1, y1);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x1 - headLength * Math.cos(angle - Math.PI / 6), y1 - headLength * Math.sin(angle - Math.PI / 6));
+    ctx.lineTo(x1 - headLength * Math.cos(angle + Math.PI / 6), y1 - headLength * Math.sin(angle + Math.PI / 6));
+    ctx.lineTo(x1, y1);
+    ctx.fillStyle = ctx.strokeStyle;
+    ctx.fill();
+  }
 }
 
 function pushCanvas(canvas) {
@@ -469,4 +631,20 @@ blackBoard();
 
 document.addEventListener("DOMContentLoaded", function () {
   loadConfig();
+  // restore board color
+  var savedBoardColor = localStorage.getItem("boardColor");
+  if (savedBoardColor) {
+    var canvas = document.getElementById("black-board");
+    canvas.style.backgroundColor = savedBoardColor;
+    var picker = document.getElementById("board-color");
+    if (picker) picker.value = savedBoardColor;
+  }
+  // keyboard shortcuts
+  document.addEventListener("keydown", function (ev) {
+    if ((ev.ctrlKey || ev.metaKey) && (ev.key === "z" || ev.key === "Z")) { ev.preventDefault(); onUndo(); }
+    if ((ev.ctrlKey || ev.metaKey) && (ev.key === "+" || ev.key === "=")) { ev.preventDefault(); zoomIn(); }
+    if ((ev.ctrlKey || ev.metaKey) && (ev.key === "-" || ev.key === "_")) { ev.preventDefault(); zoomOut(); }
+    if (ev.key === "g" || ev.key === "G") { ev.preventDefault(); toggleGrid(); }
+    if (ev.key === "e" || ev.key === "E") { ev.preventDefault(); window.setEraserEnabled(!isEraserEnabled); }
+  });
 });

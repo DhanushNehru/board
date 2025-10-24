@@ -64,6 +64,28 @@
             <label class="color-header" for="eraser-thickness">Eraser Thickness:</label>
             <input type="range" name="eraserThickness" id="eraser-thickness" min="5" max="30" value="10" />
           </div>
+          
+          <div class="color-selection tool-selector">
+            <label class="color-header" for="tool-select">Drawing Tool:</label>
+            <select id="tool-select" class="tool-select">
+              <option value="pen">Pen</option>
+              <option value="rectangle">Rectangle</option>
+              <option value="circle">Circle</option>
+              <option value="line">Line</option>
+              <option value="arrow">Arrow</option>
+              <option value="text">Text</option>
+            </select>
+          </div>
+          
+          <div class="color-selection brush-type">
+            <label class="color-header" for="brush-type">Brush Type:</label>
+            <select id="brush-type" class="brush-select">
+              <option value="normal">Normal</option>
+              <option value="marker">Marker</option>
+              <option value="highlighter">Highlighter</option>
+              <option value="spray">Spray</option>
+            </select>
+          </div>
         </div>
       </section>
 
@@ -75,6 +97,9 @@
         <div class="clear-download-undo-button">
           <button class="btn btn-secondary clear" title="Clear Board" onclick="onClear()">Clear</button>
           <button class="btn btn-success undo" title="Undo Board" onclick="onUndo()">Undo</button>
+          <button class="btn btn-info zoom-in" title="Zoom In" onclick="zoomIn()">Zoom In</button>
+          <button class="btn btn-info zoom-out" title="Zoom Out" onclick="zoomOut()">Zoom Out</button>
+          <button class="btn btn-warning grid-toggle" title="Toggle Grid" onclick="toggleGrid()">Grid</button>
           <button id="download" class="btn btn-primary" title="Download">
             <img src="/assets/ico/download.svg" alt="Download" />
           </button>
