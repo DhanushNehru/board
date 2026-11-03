@@ -6,47 +6,67 @@ const eraserBtn = document.getElementById("eraser-btn");
 const eraserThicknessInp = document.getElementById("eraser-thickness");
 
 let isEraserEnabled = false;
+// Pen and eraser each keep their own thickness; context.lineWidth alone
+// used to make the two controls overwrite each other (#97).
+let penThickness = penThicknessInp?.value ?? "2";
+let eraserThickness = eraserThicknessInp?.value ?? "10";
+
+function boardStrokeColor() {
+  return boardColorInp?.value || "#FFFFFF";
+}
+
+function applyActiveToolStyle() {
+  const context = canvas.getContext("2d");
+  if (isEraserEnabled) {
+    context.strokeStyle = boardStrokeColor();
+    context.lineWidth = eraserThickness;
+  } else {
+    context.strokeStyle = penColorInp.value;
+    context.lineWidth = penThickness;
+  }
+}
 
 // Change board color
 boardColorInp.addEventListener("change", (e) => {
   const color = e.target.value;
   canvas.style.backgroundColor = color;
+  // Eraser paints with the board colour (#94).
+  if (isEraserEnabled) {
+    canvas.getContext("2d").strokeStyle = color;
+  }
 });
 
 // Change pen color and thickness
 penColorInp.addEventListener("change", (e) => {
   const color = e.target.value;
-  const context = canvas.getContext("2d");
-  context.strokeStyle = color;
+  if (!isEraserEnabled) {
+    canvas.getContext("2d").strokeStyle = color;
+  }
 });
 
 // Change pen thickness
 penThicknessInp.addEventListener("input", (e) => {
-  const thickness = e.target.value;
-  const context = canvas.getContext("2d");
-  context.lineWidth = thickness;
+  penThickness = e.target.value;
+  if (!isEraserEnabled) {
+    canvas.getContext("2d").lineWidth = penThickness;
+  }
 });
 
 // Toggle eraser mode
 eraserBtn.addEventListener("click", () => {
   isEraserEnabled = !isEraserEnabled;
-  const context = canvas.getContext("2d");
-  
   if (isEraserEnabled) {
-    context.strokeStyle = "#FFFFFF"; // Change to background color for erasing
     eraserBtn.textContent = "Disable Eraser";
   } else {
-    context.strokeStyle = penColorInp.value; // Switch back to pen color
     eraserBtn.textContent = "Enable Eraser";
   }
+  applyActiveToolStyle();
 });
 
 // Change eraser thickness
 eraserThicknessInp.addEventListener("input", (e) => {
-  const thickness = e.target.value;
-  const context = canvas.getContext("2d");
-  
-  // Apply eraser thickness
-  context.lineWidth = thickness;
+  eraserThickness = e.target.value;
+  if (isEraserEnabled) {
+    canvas.getContext("2d").lineWidth = eraserThickness;
+  }
 });
-
