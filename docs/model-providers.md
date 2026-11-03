@@ -68,3 +68,36 @@ Configuration lives in `config.local.json` (copy
   `label` and `description`.
 - **Fail gracefully.** Reject the promise with a readable error message; the
   UI shows it in the status line.
+
+## A free local path, end to end
+
+One concrete free setup, no accounts and no paid services:
+
+1. Install [AUTOMATIC1111 Stable Diffusion WebUI](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
+   (or any compatible local image server) and start it with `--api`.
+2. Run the example adapter, which translates the contract into the WebUI
+   `img2img` API:
+
+   ```
+   node docs/examples/local-endpoint.example.mjs
+   ```
+
+3. Copy `config.local.json.example` to `config.local.json` and set:
+
+   ```json
+   { "remoteEndpoint": { "url": "http://localhost:8787/generate", "token": "" } }
+   ```
+
+4. Reload the page, pick "Remote model endpoint (your own)" in Sketch
+   Studio, enhance a sketch and generate.
+
+The request and response shapes are the contract defined above. The adapter
+is an example for contributors, not part of the app.
+
+## What is tested
+
+`tests/remote-endpoint.test.mjs` runs the real provider file (run locally with `node --test "tests/*.test.mjs"`) in Node with a
+mocked `fetch` and checks the request/response contract: request shape,
+optional auth header, image and text results, and error handling. These are
+contract tests only - they do not call a real model. Running against a live
+local model server is covered by the walkthrough above.
