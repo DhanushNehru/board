@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Drawing Board</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="studio.css" />
     <link rel="icon" type="image/x-icon" href="assets/ico/favicon.ico" />
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -80,6 +81,45 @@
           </button>
         </div>
       </section>
+      <section class="sketch-studio" id="sketch-studio">
+        <h2>Sketch Studio</h2>
+        <p class="studio-note">
+          Capture a photo of a hand-drawn sketch, clean it up locally, and
+          optionally send it to a provider to generate an image or markup.
+          Capture and cleanup run fully in your browser - nothing is uploaded
+          unless you configure your own endpoint.
+        </p>
+        <div class="studio-controls">
+          <input type="file" id="studio-file" accept="image/*" />
+          <button id="studio-camera-btn" class="btn btn-secondary">Use camera</button>
+          <button id="studio-snap-btn" class="btn btn-secondary" disabled>Capture photo</button>
+        </div>
+        <video id="studio-video" autoplay playsinline hidden></video>
+        <div class="studio-previews">
+          <figure>
+            <canvas id="studio-raw"></canvas>
+            <figcaption>Captured</figcaption>
+          </figure>
+          <figure>
+            <canvas id="studio-clean"></canvas>
+            <figcaption>Enhanced</figcaption>
+          </figure>
+        </div>
+        <div class="studio-tuning">
+          <label for="studio-threshold">Cleanup sensitivity (0 = auto):</label>
+          <input type="range" id="studio-threshold" min="0" max="255" value="0" />
+          <button id="studio-enhance-btn" class="btn btn-primary" disabled>Enhance sketch</button>
+        </div>
+        <div class="studio-generate">
+          <label for="studio-provider">Provider:</label>
+          <select id="studio-provider"></select>
+          <label for="studio-prompt">Prompt (optional):</label>
+          <input type="text" id="studio-prompt" placeholder="e.g. a tidy vector version of this sketch" />
+          <button id="studio-generate-btn" class="btn btn-success" disabled>Generate</button>
+        </div>
+        <p id="studio-status" role="status"></p>
+        <div id="studio-output"></div>
+      </section>
     </main>
 
    <section class="footer"> 
@@ -121,6 +161,11 @@
 
     <script src="script.js"></script>
     <script src="colorChanges.js"></script>
+    <script src="js/capture.js"></script>
+    <script src="js/generator/registry.js"></script>
+    <script src="js/generator/providers/local-cleanup.js"></script>
+    <script src="js/generator/providers/remote-endpoint.js"></script>
+    <script src="js/studio.js"></script>
     <script>
       var time_stamp = new Date().getTime();
       var scriptElement = document.createElement("script");
