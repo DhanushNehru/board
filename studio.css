@@ -1,0 +1,104 @@
+/* Sketch Studio: capture, cleanup and generation UI.
+   Uses the theme variables defined in styles.css. */
+.sketch-studio {
+  width: 100%;
+  max-width: 960px;
+  margin: 30px auto 60px;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  color: var(--text-color);
+}
+
+.sketch-studio h2 {
+  margin-top: 0;
+}
+
+.studio-note {
+  font-size: 0.9rem;
+  color: var(--hover-color);
+}
+
+.studio-controls,
+.studio-tuning,
+.studio-generate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.studio-previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.studio-previews figure {
+  margin: 0;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.studio-previews canvas {
+  max-width: 320px;
+  max-height: 240px;
+  border: 1px dashed var(--accent-color);
+  border-radius: 8px;
+  background: #fff;
+}
+
+#studio-video {
+  max-width: 320px;
+  border-radius: 8px;
+}
+
+.studio-result {
+  max-width: 100%;
+  border: 1px solid var(--secondary-color);
+  border-radius: 8px;
+  background:
+    repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 50% / 16px 16px;
+}
+
+.studio-download {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--accent-color);
+}
+
+.studio-text-result {
+  max-width: 100%;
+  overflow: auto;
+  padding: 12px;
+  background: #f4f4f4;
+  border-radius: 8px;
+  text-align: left;
+}
+
+#studio-status {
+  min-height: 1.2em;
+  font-size: 0.9rem;
+}
+
+.studio-error {
+  color: var(--error-color);
+}
+
+#studio-prompt {
+  flex: 1 1 220px;
+  padding: 8px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 6px;
+  font-family: inherit;
+}
+
+#studio-provider {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--secondary-color);
+  font-family: inherit;
+}

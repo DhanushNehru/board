@@ -1,0 +1,6 @@
+{
+  "remoteEndpoint": {
+    "url": "https://your-endpoint.example.com/generate",
+    "token": ""
+  }
+}

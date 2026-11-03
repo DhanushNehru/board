@@ -19,6 +19,22 @@ You can use Gitpod in the cloud [![Gitpod Ready-to-Code](https://img.shields.io/
 - CSS
 - JAVASCRIPT
 
+## Sketch Studio
+
+In addition to the drawing board, the page includes a Sketch Studio section:
+
+- **Capture** a photo of a hand-drawn sketch from a file or your device camera.
+- **Enhance** it locally (grayscale, contrast, auto threshold, crop to the
+  drawing) - all in the browser, nothing is uploaded.
+- **Generate** further output through a pluggable provider. The built-in
+  local provider produces a transparent PNG/SVG cleanup offline with no
+  model. You can also point the app at your own free model endpoint.
+
+Model endpoints are optional and configured in `config.local.json` (see
+`config.local.json.example`), which is gitignored - never commit credentials.
+Free endpoints only. See [docs/model-providers.md](docs/model-providers.md)
+to add your own provider.
+
 ## Getting Started
 
 To run the project locally we need to setup google signin initially and need a local server like Python's HTTP server or Node.js.
