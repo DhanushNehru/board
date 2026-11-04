@@ -1,7 +1,8 @@
 {
     "scripts": {
         "lint": "eslint .",
-        "lint:fix": "eslint . --fix"
+        "lint:fix": "eslint . --fix",
+        "test": "node --test tests/*.test.mjs"
     },
     "devDependencies": {
         "eslint": "^8.50.0",
