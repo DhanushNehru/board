@@ -1,7 +1,5 @@
 var drawArray = [];
 var drawStep = -1;
-let isPageReloaded =
-  JSON.parse(localStorage.getItem("isPageReloaded")) || false;
 var email = localStorage.getItem("email") || null;
 var isSignedIn;
 const buttonDownload = document.getElementById("download");
@@ -210,7 +208,7 @@ function blackBoard() {
   function endPosition() {
     painting = false;
     ctx.beginPath();
-    pushCanvas();
+    pushCanvas(canvas);
     saveCanvas(email);
   }
 
@@ -305,6 +303,11 @@ function loadCanvas(email) {
     img.src = dataURL;
     img.onload = function () {
       ctx.drawImage(img, 0, 0);
+      // The restored image is the base of the undo history: strokes drawn
+      // before the reload are gone, so undoing the new strokes lands back
+      // here, and undoing past the base clears the board.
+      drawArray = [dataURL];
+      drawStep = 0;
     };
   }
 }
@@ -312,43 +315,26 @@ function loadCanvas(email) {
 // eslint-disable-next-line no-unused-vars
 function onUndo() {
   //function to undo the drawing
+  if (drawStep < 0) {
+    return;
+  }
+  const canvas = document.getElementById("black-board");
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+  drawStep--;
   if (drawStep >= 0) {
-    // Check if there are previous drawings to undo
-
-    const canvas = document.getElementById("black-board");
-    const ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-    drawStep--;
+    // Load the previous drawing from drawArray
     var canvasPic = new Image();
     canvasPic.src = drawArray[drawStep];
-
-    // Load the previous drawing from drawArray
     canvasPic.onload = function () {
       ctx.drawImage(canvasPic, 0, 0);
-      console.log(email);
       localStorage.setItem(`myCanvas_${email}`, canvas.toDataURL());
     };
-    if (isPageReloaded) {
-      // If the browser tab was reloaded or re-opened
-      var canvasPicOld = new Image();
-      canvasPicOld.src = localStorage.getItem(`oldImage_${email}`);
-      canvasPicOld.onload = function () {
-        // Draw the previous image on the canvas
-        ctx.drawImage(canvasPicOld, 0, 0);
-      };
-    } else {
-      // Reset the drawArray and drawStep since there are no more previous drawings
-      drawArray = [];
-      drawStep = -1;
-    }
+  } else {
+    // Undoing past the base of the history leaves a blank board
+    localStorage.setItem(`myCanvas_${email}`, null);
   }
 }
-
-window.addEventListener("beforeunload", function () {
-  const canvas = document.getElementById("black-board");
-  localStorage.setItem("isPageReloaded", "true");
-  localStorage.setItem(`oldImage_${email}`, canvas.toDataURL());
-});
 
 // Function to handle sign-in response
 // eslint-disable-next-line no-unused-vars
