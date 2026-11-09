@@ -85,7 +85,11 @@
         setStatus("Camera on. Frame the sketch and choose Capture photo.");
       })
       .catch(function (error) {
-        setStatus("Could not start the camera: " + error.message, true);
+        if (error && error.name === "NotAllowedError") {
+          setStatus("Camera access was denied. Allow camera access in your browser settings, or upload a sketch image instead.", true);
+        } else {
+          setStatus("Could not start the camera: " + error.message, true);
+        }
       });
   });
 
