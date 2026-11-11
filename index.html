@@ -69,13 +69,18 @@
       </section>
 
       <section class="canvas-container">
-        <canvas id="black-board"></canvas>
+        <div class="board-wrapper">
+          <canvas id="black-board"></canvas>
+          <canvas id="trace-layer" aria-hidden="true"></canvas>
+        </div>
       </section>
 
       <section class="action-buttons">
         <div class="clear-download-undo-button">
           <button class="btn btn-secondary clear" title="Clear Board" onclick="onClear()">Clear</button>
           <button class="btn btn-success undo" title="Undo Board" onclick="onUndo()">Undo</button>
+          <button id="remove-trace-btn" class="btn btn-outline-secondary" title="Remove trace layer" onclick="onRemoveTrace()" style="display:none">Remove Trace</button>
+          <span id="trace-active-indicator" class="trace-indicator" style="display:none" aria-live="polite">Trace active</span>
           <button id="download" class="btn btn-primary" title="Download">
             <img src="/assets/ico/download.svg" alt="Download" />
           </button>
@@ -109,6 +114,7 @@
           <label for="studio-threshold">Cleanup sensitivity (0 = auto):</label>
           <input type="range" id="studio-threshold" min="0" max="255" value="0" />
           <button id="studio-enhance-btn" class="btn btn-primary" disabled>Enhance sketch</button>
+          <button id="studio-send-btn" class="btn btn-warning" disabled>Send to Board ↑</button>
         </div>
         <div class="studio-generate">
           <label for="studio-provider">Provider:</label>

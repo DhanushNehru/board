@@ -289,6 +289,128 @@ function onClear() {
   localStorage.setItem(`myCanvas_${email}`, null);
   pushCanvas(canvas);
   saveCanvas(email, canvas);
+
+  const traceCanvas = document.getElementById("trace-layer");
+  if (traceCanvas) {
+    traceCanvas.getContext("2d").clearRect(0, 0, traceCanvas.width, traceCanvas.height);
+  }
+  localStorage.removeItem("boardTraceLayer");
+  document.getElementById("remove-trace-btn").style.display = "none";
+}
+
+/**
+ * Renders a trace image onto the trace layer canvas, scaled to match the
+ * current board canvas dimensions. Called both when first loading a trace
+ * and when restoring after a page reload or canvas resize.
+ *
+ * @param {string} dataUrl - A data URL (PNG or JPEG) of the sketch to render.
+ */
+function renderTraceLayer(dataUrl) {
+  const boardCanvas = document.getElementById("black-board");
+  const traceCanvas = document.getElementById("trace-layer");
+
+  if (!traceCanvas) {
+    return;
+  }
+
+  if (!dataUrl || typeof dataUrl !== "string" || !dataUrl.startsWith("data:")) {
+    console.warn("renderTraceLayer: invalid dataUrl, skipping render.");
+    return;
+  }
+
+  traceCanvas.width = boardCanvas.width;
+  traceCanvas.height = boardCanvas.height;
+
+  const ctx = traceCanvas.getContext("2d");
+  ctx.clearRect(0, 0, traceCanvas.width, traceCanvas.height);
+
+  const img = new Image();
+
+  img.onerror = function () {
+    console.warn("renderTraceLayer: failed to load trace image.");
+  };
+
+  img.onload = function () {
+    ctx.drawImage(img, 0, 0, traceCanvas.width, traceCanvas.height);
+    const removeBtn = document.getElementById("remove-trace-btn");
+    if (removeBtn) {
+      removeBtn.style.display = "";
+    }
+    setTraceIndicator(true);
+  };
+
+  img.src = dataUrl;
+}
+
+/**
+ * Shows or hides the "Trace active" indicator badge near the board.
+ *
+ * @param {boolean} active - Whether a trace layer is currently active.
+ */
+function setTraceIndicator(active) {
+  var indicator = document.getElementById("trace-active-indicator");
+  if (!indicator) {
+    return;
+  }
+  indicator.style.display = active ? "inline-block" : "none";
+}
+
+/**
+ * Loads a sketch image as a faint trace layer on the drawing board so the
+ * user can draw over it. Persists the image to localStorage so it survives
+ * page reloads.
+ *
+ * @param {string} dataUrl - A data URL of the sketch image to use as a trace.
+ */
+// eslint-disable-next-line no-unused-vars
+function loadTraceLayer(dataUrl) {
+  if (!dataUrl) {
+    return;
+  }
+  localStorage.setItem("boardTraceLayer", dataUrl);
+  renderTraceLayer(dataUrl);
+}
+
+/**
+ * Removes the trace layer from the board and clears its persisted copy from
+ * localStorage. Called by the "Remove Trace" button.
+ */
+// eslint-disable-next-line no-unused-vars
+function onRemoveTrace() {
+  const traceCanvas = document.getElementById("trace-layer");
+  if (traceCanvas) {
+    const ctx = traceCanvas.getContext("2d");
+    ctx.clearRect(0, 0, traceCanvas.width, traceCanvas.height);
+  }
+  localStorage.removeItem("boardTraceLayer");
+  const removeBtn = document.getElementById("remove-trace-btn");
+  if (removeBtn) {
+    removeBtn.style.display = "none";
+  }
+  setTraceIndicator(false);
+}
+
+/**
+ * Restores the trace layer from localStorage after a page reload. Also
+ * registers a ResizeObserver so the trace image is re-rendered whenever the
+ * board canvas is resized (e.g. window resize).
+ */
+function restoreTraceLayer() {
+  const saved = localStorage.getItem("boardTraceLayer");
+  if (saved) {
+    renderTraceLayer(saved);
+  }
+
+  const boardCanvas = document.getElementById("black-board");
+  if (boardCanvas && typeof ResizeObserver !== "undefined") {
+    const observer = new ResizeObserver(function () {
+      const current = localStorage.getItem("boardTraceLayer");
+      if (current) {
+        renderTraceLayer(current);
+      }
+    });
+    observer.observe(boardCanvas);
+  }
 }
 
 function loadCanvas(email) {
@@ -452,6 +574,8 @@ function loadConfig() {
 loadCanvas(email);
 
 blackBoard();
+
+restoreTraceLayer();
 
 document.addEventListener("DOMContentLoaded", function () {
   loadConfig();

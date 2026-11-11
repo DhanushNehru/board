@@ -123,6 +123,13 @@ body {
   margin: 20px 0;
 }
 
+.board-wrapper {
+  position: relative;
+  width: 90vw;
+  height: 70vh;
+  max-width: 1400px;
+}
+
 canvas {
   background: #ffffff;
   border: 3px solid var(--accent-color);
@@ -131,6 +138,48 @@ canvas {
   width: 90vw;
   height: 70vh;
   max-width: 1400px;
+}
+
+#black-board {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#trace-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.28;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 8px;
+  z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.trace-indicator {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background-color: var(--accent-color);
+  border-radius: 12px;
+  padding: 3px 10px;
+  vertical-align: middle;
+  letter-spacing: 0.03em;
+  animation: trace-pulse 2s ease-in-out infinite;
+}
+
+@keyframes trace-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
 }
 
 /* Button styles */
