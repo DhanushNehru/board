@@ -70,6 +70,12 @@
   color: var(--accent-color);
 }
 
+.studio-send-result {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 12px;
+}
+
 .studio-text-result {
   max-width: 100%;
   overflow: auto;

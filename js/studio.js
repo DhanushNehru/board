@@ -15,6 +15,7 @@
   var generateBtn = document.getElementById("studio-generate-btn");
   var statusEl = document.getElementById("studio-status");
   var outputEl = document.getElementById("studio-output");
+  var sendBtn = document.getElementById("studio-send-btn");
 
   if (!fileInput || !window.BoardCapture || !window.SketchGenerator) {
     return;
@@ -22,6 +23,43 @@
 
   var sourceCanvas = null;
   var cameraStream = null;
+  var pendingSendDataUrl = null;
+
+  /**
+   * Sends a sketch image to the drawing board as a faint trace layer.
+   * Scrolls the page up to the board so the user can start tracing immediately.
+   *
+   * @param {string} dataUrl - Data URL of the image to send.
+   */
+  function sendToBoard(dataUrl) {
+    if (typeof window.loadTraceLayer !== "function") {
+      setStatus("Board trace layer is not available. Please reload the page.", true);
+      return;
+    }
+
+    if (!dataUrl || !dataUrl.startsWith("data:")) {
+      setStatus("No valid image available to send to the board.", true);
+      return;
+    }
+
+    window.loadTraceLayer(dataUrl);
+
+    var boardSection = document.querySelector(".canvas-container");
+    if (boardSection) {
+      boardSection.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    setStatus(
+      "Sketch sent to the board as a faint trace layer." +
+      " Draw over it with the pen, then click Remove Trace when done."
+    );
+  }
+
+  if (sendBtn) {
+    sendBtn.addEventListener("click", function () {
+      if (pendingSendDataUrl) sendToBoard(pendingSendDataUrl);
+    });
+  }
 
   function setStatus(message, isError) {
     statusEl.textContent = message;
@@ -112,11 +150,13 @@
     var result = window.BoardCapture.preprocess(sourceCanvas, { threshold: threshold });
     fitPreview(result.canvas, cleanCanvas);
     generateBtn.disabled = false;
+    pendingSendDataUrl = cleanCanvas.toDataURL();
+    if (sendBtn) sendBtn.disabled = false;
     setStatus(
       "Cleanup applied (threshold " +
         result.threshold +
         (threshold > 0 ? ", manual" : ", auto") +
-        "). Pick a provider and choose Generate."
+        "). Pick a provider and choose Generate, or Send to Board to trace over it."
     );
   });
 
@@ -143,6 +183,13 @@
           link.textContent = "Download result";
           link.className = "studio-download";
           outputEl.appendChild(link);
+          var sendResultBtn = document.createElement("button");
+          sendResultBtn.textContent = "Send to Board ↑";
+          sendResultBtn.className = "btn btn-warning studio-send-result";
+          sendResultBtn.addEventListener("click", function () {
+            sendToBoard(result.dataUrl);
+          });
+          outputEl.appendChild(sendResultBtn);
         } else {
           var pre = document.createElement("pre");
           pre.className = "studio-text-result";
