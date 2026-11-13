@@ -290,12 +290,7 @@ function onClear() {
   pushCanvas(canvas);
   saveCanvas(email, canvas);
 
-  const traceCanvas = document.getElementById("trace-layer");
-  if (traceCanvas) {
-    traceCanvas.getContext("2d").clearRect(0, 0, traceCanvas.width, traceCanvas.height);
-  }
-  localStorage.removeItem("boardTraceLayer");
-  document.getElementById("remove-trace-btn").style.display = "none";
+  onRemoveTrace();
 }
 
 /**
